@@ -16,13 +16,13 @@ public class GamePlayer {
 
 
     //attributes
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
     private Date date;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="player_id")
@@ -33,6 +33,7 @@ public class GamePlayer {
     private Game game;
 
 
+    //constructor
 
     public GamePlayer() { }
 
@@ -42,10 +43,12 @@ public class GamePlayer {
         this.date = new Date();
     }
 
+
+    //methods
+
     public Long getId() {
         return id;
     }
-
 
     public Player getPlayer() {
         return player;

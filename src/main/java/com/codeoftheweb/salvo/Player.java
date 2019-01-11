@@ -11,7 +11,9 @@ import javax.persistence.OneToMany;
 @Entity
 public class Player {
 
+
     //attributes
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
@@ -30,6 +32,7 @@ public class Player {
         gamePlayers.add(gamePlayer);
     }
 
+
     //constructor
 
     public Player() { }
@@ -39,11 +42,10 @@ public class Player {
         this.lastName = last;
         this.userName = user;
         this.email = email;
-
     }
 
-    //methods
 
+    //methods
 
     public String getFirstName() {
         return firstName;

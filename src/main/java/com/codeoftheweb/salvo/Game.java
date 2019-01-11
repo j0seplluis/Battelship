@@ -16,9 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 
-
 @Entity
 public class Game {
+
 
     //attributes
 
@@ -40,11 +40,12 @@ public class Game {
 
     //constructor
 
-
     public Game(){
         this.date = new Date();
     }
 
+
+    //methods
 
     public Long getId() {
         return id;
