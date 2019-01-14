@@ -1,13 +1,9 @@
 package com.codeoftheweb.salvo;
 
-
 import org.hibernate.annotations.GenericGenerator;
-
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;

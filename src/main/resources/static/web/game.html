@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>game</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+
+</head>
+<body>
+
+<div id="myApp">
+
+        <table class=grid>
+            <tr v-for="letter, j in letters">
+                <td v-for="number,i in numbers" v-bind:id="letter + number">
+                    <span v-if="j == 0 || i == 0">{{letter + number}}</span>
+                </td>
+            </tr>
+        </table>
+   
+
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="./js/game.js"></script>
+</body>
+
+</html>

@@ -1,13 +1,13 @@
 package com.codeoftheweb.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -25,6 +25,10 @@ public class SalvoController {
     @Autowired
     private GamePlayerRepository gpRepo;
 
+    @Autowired
+    private  ShipRepository shipRepo;
+
+    /*-----------------------------------------------------------------------------*/
 
     @RequestMapping("/players")
     public List<Object> getPlayer() {
@@ -50,6 +54,15 @@ public class SalvoController {
                 .collect(toList());
     }
 
+    @RequestMapping("/game_view/{gamePlayer_id}")
+    public Map<String, Object> getGameView(@PathVariable Long gamePlayer_id) {
+        GamePlayer currentGP = gpRepo.getOne(gamePlayer_id);
+
+        return gameViewDTO(currentGP);
+    }
+
+    /*-----------------------------------------------------------------------------*/
+
     private Map<String, Object> gameDTO (Game game){
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", game.getId());
@@ -58,6 +71,20 @@ public class SalvoController {
                 .stream()
                 .map(gamePlayer -> gamePlayerDTO(gamePlayer))
                 .collect(toList()));
+        return dto;
+    }
+
+    private Map<String, Object> gameViewDTO (GamePlayer currentGP){
+        Game game = currentGP.getGame();
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id", game.getId());
+        dto.put("create", game.getDate());
+        dto.put("gamePlayer", game.getGamePlayers ()
+                .stream()
+                .map(gamePlayer -> gamePlayerDTO(gamePlayer))
+                .collect(toList()));
+        dto.put("ships", currentGP.getShips());
+
         return dto;
     }
 
@@ -76,5 +103,4 @@ public class SalvoController {
         return dto;
     }
 }
-
 

@@ -1,8 +1,8 @@
 package com.codeoftheweb.salvo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,9 +25,10 @@ public class Ship {
     @Column(name = "shipLocation")
     private List<String> shipLocation = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gameplayer")
-    private GamePlayer gamePlayers;
+    private GamePlayer gamePlayer;
 
 
     //constructor
@@ -38,7 +39,7 @@ public class Ship {
 
     public Ship(String type, GamePlayer gamePlayer, List<String> shipLocation) {
         this.shipType = type;
-        this.gamePlayers = gamePlayer;
+        this.gamePlayer = gamePlayer;
         this.shipLocation = shipLocation;
     }
 
@@ -57,6 +58,19 @@ public class Ship {
         this.shipType = type;
     }
 
+    public GamePlayer getGamePlayer() {
+        return gamePlayer;
+    }
 
+    public void setGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayer = gamePlayer;
+    }
 
+    public List<String> getShipLocation() {
+        return shipLocation;
+    }
+
+    public void setShipLocation(List<String> shipLocation) {
+        this.shipLocation = shipLocation;
+    }
 }

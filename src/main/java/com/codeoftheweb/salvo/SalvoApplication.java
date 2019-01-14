@@ -4,8 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @SpringBootApplication
@@ -19,7 +20,6 @@ public class SalvoApplication {
     @Bean
     public CommandLineRunner initData(PlayerRepository repository, GameRepository gameRepo, GamePlayerRepository gpRepo, ShipRepository shipRepo) {
         return (args) -> {
-            // save a couple of customers
 
             Player p1 = new Player("Jack", "Bauer", "Jack", "j.bauer@ctu.gov");
             repository.save(p1);
@@ -73,22 +73,41 @@ public class SalvoApplication {
             GamePlayer gp7 = new GamePlayer(p4, g4);
             gpRepo.save(gp7);
 
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            Ship ship1 = new Ship("Patrol Boat", gp1, Arrays.asList("A4", "A5"));
+            shipRepo.save(ship1);
+
+            Ship ship2 = new Ship("Destroyer", gp1, Arrays.asList("H2","H3","H4"));
+            shipRepo.save(ship2);
+
+            Ship ship3 = new Ship("Submarine", gp1, Arrays.asList("E1", "F1", "G1"));
+            shipRepo.save(ship3);
+
+            Ship ship4 = new Ship("Carrier", gp1, Arrays.asList("H6", "H7", "H8", "H9", "H10"));
+            shipRepo.save(ship4);
+
+            Ship ship5 = new Ship("Battleship", gp1, Arrays.asList("E2","E3", "E4", "E5"));
+            shipRepo.save(ship5);
 
             /*------------------------------------------------------------------------------------------------------------*/
 
-            ArrayList<String> Destoyer = new ArrayList<>();
-            Destoyer.add("H1");
-            Destoyer.add("H2");
-            Destoyer.add("H3");
+            Ship ship6 = new Ship("Patrol Boat", gp2, Arrays.asList("A3", "B3", "C3"));
+            shipRepo.save(ship6);
 
-            Ship ship1 = new Ship("Destoyer", gp1, Destoyer);
-            shipRepo.save(ship1);
+            Ship ship7 = new Ship("Destroyer", gp2, Arrays.asList("H2","H3","H4"));
+            shipRepo.save(ship7);
 
-            Ship ship2 = new Ship();
-            shipRepo.save(ship2);
+            Ship ship8 = new Ship("Submarine", gp2, Arrays.asList("E1", "F1", "G1"));
+            shipRepo.save(ship8);
 
-            Ship ship3 = new Ship();
-            shipRepo.save(ship3);
+            Ship ship9 = new Ship("Carrier", gp2, Arrays.asList("H6", "H7", "H8", "H9", "H10"));
+            shipRepo.save(ship9);
+
+            Ship ship10 = new Ship("Battleship", gp2, Arrays.asList("E2","E3", "E4", "E5"));
+            shipRepo.save(ship10);
+
+            /*------------------------------------------------------------------------------------------------------------*/
 
 
         };
