@@ -30,11 +30,8 @@ public class SalvoApplication {
             Player p3 = new Player("Kim", "Bauer", "Kim", "kim_bauer@gmail.com");
             repository.save(p3);
 
-            Player p4 = new Player("David", "Palmer", "David", "d.palmer@whitehouse.gov");
+            Player p4 = new Player("Tony", "Almeida", "Tony", "t.almeida@ctu.gov");
             repository.save(p4);
-
-            Player p5 = new Player("Michelle", "Dessler", "Michelle", "m.dessler@ctu.gov");
-            repository.save(p5);
 
             /*------------------------------------------------------------------------------------------------------------*/
 
@@ -50,6 +47,17 @@ public class SalvoApplication {
             Game g4 = new Game();
             gameRepo.save(g4);
 
+            Game g5 = new Game();
+            gameRepo.save(g5);
+
+            Game g6 = new Game();
+            gameRepo.save(g6);
+
+            Game g7 = new Game();
+            gameRepo.save(g7);
+
+            Game g8 = new Game();
+            gameRepo.save(g8);
             /*------------------------------------------------------------------------------------------------------------*/
 
             GamePlayer gp1 = new GamePlayer(p1, g1);
@@ -64,18 +72,36 @@ public class SalvoApplication {
             GamePlayer gp4 = new GamePlayer(p2, g2);
             gpRepo.save(gp4);
 
-            GamePlayer gp5 = new GamePlayer(p3, g3);
+            GamePlayer gp5 = new GamePlayer(p2, g3);
             gpRepo.save(gp5);
 
             GamePlayer gp6 = new GamePlayer(p4, g3);
             gpRepo.save(gp6);
 
-            GamePlayer gp7 = new GamePlayer(p4, g4);
+            GamePlayer gp7 = new GamePlayer(p2, g4);
             gpRepo.save(gp7);
+
+            GamePlayer gp8 = new GamePlayer(p4, g4);
+            gpRepo.save(gp8);
+
+            GamePlayer gp9 = new GamePlayer(p4, g5);
+            gpRepo.save(gp9);
+
+            GamePlayer gp11 = new GamePlayer(p3, g6);
+            gpRepo.save(gp11);
+
+            GamePlayer gp12 = new GamePlayer(p4, g7);
+            gpRepo.save(gp12);
+
+            GamePlayer gp13 = new GamePlayer(p3, g8);
+            gpRepo.save(gp13);
+
+            GamePlayer gp14 = new GamePlayer(p4, g8);
+            gpRepo.save(gp14);
 
             /*------------------------------------------------------------------------------------------------------------*/
 
-            Ship ship1 = new Ship("Patrol Boat", gp1, Arrays.asList("A4", "A5"));
+            Ship ship1 = new Ship("Patrol_Boat", gp1, Arrays.asList("B4", "B5"));
             shipRepo.save(ship1);
 
             Ship ship2 = new Ship("Destroyer", gp1, Arrays.asList("H2","H3","H4"));
@@ -84,28 +110,32 @@ public class SalvoApplication {
             Ship ship3 = new Ship("Submarine", gp1, Arrays.asList("E1", "F1", "G1"));
             shipRepo.save(ship3);
 
-            Ship ship4 = new Ship("Carrier", gp1, Arrays.asList("H6", "H7", "H8", "H9", "H10"));
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            Ship ship4 = new Ship("Patrol_Boat", gp2, Arrays.asList("F1", "F2"));
             shipRepo.save(ship4);
 
-            Ship ship5 = new Ship("Battleship", gp1, Arrays.asList("E2","E3", "E4", "E5"));
+            Ship ship5 = new Ship("Destroyer", gp2, Arrays.asList("B5","C5","D5"));
             shipRepo.save(ship5);
 
             /*------------------------------------------------------------------------------------------------------------*/
+/*
 
-            Ship ship6 = new Ship("Patrol Boat", gp2, Arrays.asList("A3", "B3", "C3"));
-            shipRepo.save(ship6);
+            Ship ship11 = new Ship("Patrol_Boat", gp3, Arrays.asList("F1", "F2"));
+            shipRepo.save(ship11);
 
-            Ship ship7 = new Ship("Destroyer", gp2, Arrays.asList("H2","H3","H4"));
-            shipRepo.save(ship7);
+            Ship ship12 = new Ship("Destroyer", gp3, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship12);
 
-            Ship ship8 = new Ship("Submarine", gp2, Arrays.asList("E1", "F1", "G1"));
-            shipRepo.save(ship8);
+            Ship ship13 = new Ship("Submarine", gp3, Arrays.asList("E1", "F1", "G1"));
+            shipRepo.save(ship13);
 
-            Ship ship9 = new Ship("Carrier", gp2, Arrays.asList("H6", "H7", "H8", "H9", "H10"));
-            shipRepo.save(ship9);
+            Ship ship14 = new Ship("Carrier", gp3, Arrays.asList("H6", "H7", "H8", "H9", "H10"));
+            shipRepo.save(ship14);
 
-            Ship ship10 = new Ship("Battleship", gp2, Arrays.asList("E2","E3", "E4", "E5"));
-            shipRepo.save(ship10);
+            Ship ship15 = new Ship("Battleship", gp3, Arrays.asList("E2","E3", "E4", "E5"));
+            shipRepo.save(ship15);
+*/
 
             /*------------------------------------------------------------------------------------------------------------*/
 

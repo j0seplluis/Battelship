@@ -1,10 +1,12 @@
+var data;
+
 fetch("/api/games").then(function (response) {
     if (response.ok) {
         return response.json();
     }
     throw new Error(response.statusText);
 }).then(function (json) {
-    var data = json;
+    data = json;
     console.log(data);
 
     //functions to call

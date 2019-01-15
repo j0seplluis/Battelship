@@ -5,7 +5,36 @@
 
 td{
     border: 1px solid #000;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     text-align: center;
 }
+
+.grid{
+    width: 400px;
+    height: 400px;
+}
+
+.shipSpace{
+    background-color: darkgray;
+}
+
+.Patrol_Boat{
+    background-color: yellow;
+}
+
+.Destroyer{
+    background-color: rebeccapurple;
+}
+
+.Submarine{
+    background-color: red;
+}
+
+.Battleship{
+    background-color: green;
+}
+.Carrier{
+    background-color: aqua;
+}
+
