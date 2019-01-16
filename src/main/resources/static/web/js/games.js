@@ -32,6 +32,7 @@ function gamesList(data) {
         }
 
         var date = new Date(data[i].create).toLocaleString();
+       
         let li = document.createElement("li");
         li.innerHTML = `${date} ${p1} vs. ${p2}`;
         games.append(li);

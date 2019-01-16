@@ -87,6 +87,9 @@ public class SalvoApplication {
             GamePlayer gp9 = new GamePlayer(p4, g5);
             gpRepo.save(gp9);
 
+            GamePlayer gp10 = new GamePlayer(p1, g5);
+            gpRepo.save(gp10);
+
             GamePlayer gp11 = new GamePlayer(p3, g6);
             gpRepo.save(gp11);
 
@@ -101,6 +104,7 @@ public class SalvoApplication {
 
             /*------------------------------------------------------------------------------------------------------------*/
 
+            //Owner Game 1
             Ship ship1 = new Ship("Patrol_Boat", gp1, Arrays.asList("B4", "B5"));
             shipRepo.save(ship1);
 
@@ -112,6 +116,7 @@ public class SalvoApplication {
 
             /*------------------------------------------------------------------------------------------------------------*/
 
+            //Opponent Game 1
             Ship ship4 = new Ship("Patrol_Boat", gp2, Arrays.asList("F1", "F2"));
             shipRepo.save(ship4);
 
@@ -119,7 +124,116 @@ public class SalvoApplication {
             shipRepo.save(ship5);
 
             /*------------------------------------------------------------------------------------------------------------*/
-/*
+
+            //Owner Game 2
+            Ship ship6 = new Ship("Patrol_Boat", gp3, Arrays.asList("C6", "C7"));
+            shipRepo.save(ship6);
+
+            Ship ship7 = new Ship("Destroyer", gp3, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship7);
+
+
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            //Opponent Game 2
+            Ship ship8 = new Ship("Patrol_Boat", gp4, Arrays.asList("G6", "H6"));
+            shipRepo.save(ship8);
+
+            Ship ship9 = new Ship("Submarine", gp4, Arrays.asList("A2", "A3", "A4"));
+            shipRepo.save(ship9);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            //Owner Game 3
+            Ship ship10 = new Ship("Patrol_Boat", gp5, Arrays.asList("C6", "C7"));
+            shipRepo.save(ship10);
+
+            Ship ship11 = new Ship("Destroyer", gp5, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship11);
+
+            /*--------------------------------------------------------------------------------------------------------------*/
+
+            //Opponent Game 3
+            Ship ship12 = new Ship("Patrol_Boat", gp6, Arrays.asList("H6", "G6"));
+            shipRepo.save(ship12);
+
+            Ship ship13 = new Ship("Submarine", gp6, Arrays.asList("A2", "A3", "A4"));
+            shipRepo.save(ship13);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            //Owner Game 4
+            Ship ship14 = new Ship("Patrol_Boat", gp7, Arrays.asList("C6", "C7"));
+            shipRepo.save(ship14);
+
+            Ship ship15 = new Ship("Destroyer", gp7, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship15);
+
+            /*--------------------------------------------------------------------------------------------------------------*/
+
+            //Opponent Game 4
+            Ship ship16 = new Ship("Patrol_Boat", gp8, Arrays.asList("G6", "H6"));
+            shipRepo.save(ship16);
+
+            Ship ship17 = new Ship("Submarine", gp8, Arrays.asList("A2", "A3", "A4"));
+            shipRepo.save(ship17);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            //Owner Game 5
+            Ship ship18 = new Ship("Patrol_Boat", gp9, Arrays.asList("C6", "C7"));
+            shipRepo.save(ship18);
+
+            Ship ship19 = new Ship("Destroyer", gp9, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship19);
+
+            /*--------------------------------------------------------------------------------------------------------------*/
+
+            //Opponent Game 5
+            Ship ship20 = new Ship("Patrol_Boat", gp10, Arrays.asList("G6", "H6"));
+            shipRepo.save(ship20);
+
+            Ship ship21 = new Ship("Submarine", gp10, Arrays.asList("A2", "A3", "A4"));
+            shipRepo.save(ship21);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            //Owner Game 6
+            Ship ship22 = new Ship("Patrol_Boat", gp11, Arrays.asList("C6", "C7"));
+            shipRepo.save(ship22);
+
+            Ship ship23 = new Ship("Destroyer", gp11, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship23);
+
+            /*--------------------------------------------------------------------------------------------------------------*/
+
+            //Opponent Game 6 - No Opponent
+
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            //Game 7 - No players
+
+            /*------------------------------------------------------------------------------------------------------------*/
+
+            //Owner Game 8
+
+            Ship ship24 = new Ship("Patrol_Boat", gp13, Arrays.asList("C6", "C7"));
+            shipRepo.save(ship24);
+
+            Ship ship25 = new Ship("Destroyer", gp13, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship25);
+
+            /*--------------------------------------------------------------------------------------------------------------*/
+
+            //Opponent Game 8
+
+            Ship ship26 = new Ship("Patrol_Boat", gp14, Arrays.asList("G6", "H6"));
+            shipRepo.save(ship26);
+
+            Ship ship27 = new Ship("Submarine", gp14, Arrays.asList("A2","A3","A4"));
+            shipRepo.save(ship27);
+
+            /*
 
             Ship ship11 = new Ship("Patrol_Boat", gp3, Arrays.asList("F1", "F2"));
             shipRepo.save(ship11);

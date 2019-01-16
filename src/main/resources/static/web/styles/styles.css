@@ -10,6 +10,22 @@ td{
     text-align: center;
 }
 
+header{
+    text-align: center;
+    height: 150px;
+}
+
+.game{
+    display: flex;
+    justify-content: space-around;
+}
+
+.gameBoard{
+    display: flex;
+    
+
+}
+
 .grid{
     width: 400px;
     height: 400px;
