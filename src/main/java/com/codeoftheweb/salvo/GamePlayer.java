@@ -85,5 +85,13 @@ public class GamePlayer {
     public void setShips(Set<Ship> ships) {
         this.ships = ships;
     }
+
+    public Set<Salvo> getSalvo() {
+        return salvo;
+    }
+
+    public void setSalvo(Set<Salvo> salvo) {
+        this.salvo = salvo;
+    }
 }
 

@@ -25,7 +25,7 @@ public class Ship {
     @Column(name = "shipLocation")
     private List<String> shipLocation = new ArrayList<>();
 
-    @JsonIgnore
+   // @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gameplayer")
     private GamePlayer gamePlayer;

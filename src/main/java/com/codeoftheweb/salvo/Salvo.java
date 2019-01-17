@@ -32,8 +32,7 @@ public class Salvo {
 
     }
 
-    public Salvo(Long id, GamePlayer gamePlayer, Integer turn, List<String> salvoLocation) {
-        this.id = id;
+    public Salvo(GamePlayer gamePlayer, Integer turn, List<String> salvoLocation) {
         this.gamePlayer = gamePlayer;
         this.Turn = turn;
         this.salvoLocation = salvoLocation;
@@ -44,10 +43,6 @@ public class Salvo {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public GamePlayer getGamePlayer() {

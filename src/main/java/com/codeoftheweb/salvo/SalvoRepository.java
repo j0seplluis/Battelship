@@ -7,6 +7,6 @@ import java.util.List;
 
 @RepositoryRestResource
 
-public interface SalvoRepository extends JpaRepository<Ship, Long> {
-    List<Ship> findByid(Long id);
+public interface SalvoRepository extends JpaRepository<Salvo, Long> {
+    List<Salvo> findByid(Long id);
 }

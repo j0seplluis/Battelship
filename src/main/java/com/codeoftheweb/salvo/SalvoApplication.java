@@ -235,23 +235,83 @@ public class SalvoApplication {
 
             /*
 
-            Ship ship11 = new Ship("Patrol_Boat", gp3, Arrays.asList("F1", "F2"));
-            shipRepo.save(ship11);
+            Ship ship1 = new Ship("Patrol_Boat", gp3, Arrays.asList("F1", "F2"));
+            shipRepo.save(ship1);
 
-            Ship ship12 = new Ship("Destroyer", gp3, Arrays.asList("B5","C5","D5"));
-            shipRepo.save(ship12);
+            Ship ship2 = new Ship("Destroyer", gp3, Arrays.asList("B5","C5","D5"));
+            shipRepo.save(ship2);
 
-            Ship ship13 = new Ship("Submarine", gp3, Arrays.asList("E1", "F1", "G1"));
-            shipRepo.save(ship13);
+            Ship ship3 = new Ship("Submarine", gp3, Arrays.asList("E1", "F1", "G1"));
+            shipRepo.save(ship3);
 
-            Ship ship14 = new Ship("Carrier", gp3, Arrays.asList("H6", "H7", "H8", "H9", "H10"));
-            shipRepo.save(ship14);
+            Ship ship4 = new Ship("Carrier", gp3, Arrays.asList("H6", "H7", "H8", "H9", "H10"));
+            shipRepo.save(ship4);
 
-            Ship ship15 = new Ship("Battleship", gp3, Arrays.asList("E2","E3", "E4", "E5"));
-            shipRepo.save(ship15);
+            Ship ship5 = new Ship("Battleship", gp3, Arrays.asList("E2","E3", "E4", "E5"));
+            shipRepo.save(ship5);
 */
 
             /*------------------------------------------------------------------------------------------------------------*/
+            //GAME 1
+            Salvo salvo1 = new Salvo( gp1, 1, Arrays.asList("B5","C5","F1"));
+            salvoRep.save(salvo1);
+            Salvo salvo2 = new Salvo( gp2, 1, Arrays.asList("B4","B5","B6"));
+            salvoRep.save(salvo2);
+            Salvo salvo3 = new Salvo( gp1, 2, Arrays.asList("F2","D5"));
+            salvoRep.save(salvo3);
+            Salvo salvo4 = new Salvo( gp2, 2, Arrays.asList("E1","H3","A2"));
+            salvoRep.save(salvo4);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+            //GAME 2
+            Salvo salvo5 = new Salvo( gp3, 1, Arrays.asList("A2","A4","G6"));
+            salvoRep.save(salvo5);
+            Salvo salvo6 = new Salvo( gp4, 1, Arrays.asList("B5","D5","C7"));
+            salvoRep.save(salvo6);
+            Salvo salvo7 = new Salvo( gp3, 2, Arrays.asList("A3","H6"));
+            salvoRep.save(salvo7);
+            Salvo salvo8 = new Salvo( gp4, 2, Arrays.asList("C5","C6"));
+            salvoRep.save(salvo8);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+            //GAME 3
+            Salvo salvo9 = new Salvo( gp5, 1, Arrays.asList("G6","H6","A4"));
+            salvoRep.save(salvo9);
+            Salvo salvo10 = new Salvo( gp6, 1, Arrays.asList("H1","H2","H3"));
+            salvoRep.save(salvo10);
+            Salvo salvo11 = new Salvo( gp5, 2, Arrays.asList("A2","A3", "D8"));
+            salvoRep.save(salvo11);
+            Salvo salvo12 = new Salvo( gp6, 2, Arrays.asList("E1","F2", "G3"));
+            salvoRep.save(salvo12);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+            //GAME 4
+            Salvo salvo13 = new Salvo( gp7, 1, Arrays.asList("A3","A4","F7"));
+            salvoRep.save(salvo13);
+            Salvo salvo14 = new Salvo( gp8, 1, Arrays.asList("B5","C6","D5"));
+            salvoRep.save(salvo14);
+            Salvo salvo15 = new Salvo( gp7, 2, Arrays.asList("A2","G6", "H6"));
+            salvoRep.save(salvo15);
+            Salvo salvo16 = new Salvo( gp8, 2, Arrays.asList("C5","C7", "D5"));
+            salvoRep.save(salvo16);
+
+            /*------------------------------------------------------------------------------------------------------------*/
+            //GAME 5
+            Salvo salvo17 = new Salvo( gp9, 1, Arrays.asList("A1","A2","A3"));
+            salvoRep.save(salvo17);
+            Salvo salvo18 = new Salvo( gp10, 1, Arrays.asList("B5","B6","C7"));
+            salvoRep.save(salvo18);
+            Salvo salvo19 = new Salvo( gp9, 2, Arrays.asList("G6","G7", "G8"));
+            salvoRep.save(salvo19);
+            Salvo salvo20 = new Salvo( gp10, 2, Arrays.asList("C6","D6", "E6"));
+            salvoRep.save(salvo20);
+            Salvo salvo21 = new Salvo( gp10, 3, Arrays.asList("H1","H8"));
+            salvoRep.save(salvo21);
+
+
+
+
+
 
 
         };

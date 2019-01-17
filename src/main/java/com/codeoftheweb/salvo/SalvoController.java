@@ -60,7 +60,6 @@ public class SalvoController {
     @RequestMapping("/game_view/{gamePlayer_id}")
     public Map<String, Object> getGameView(@PathVariable Long gamePlayer_id) {
         GamePlayer currentGP = gpRepo.getOne(gamePlayer_id);
-
         return gameViewDTO(currentGP);
     }
 
@@ -86,8 +85,8 @@ public class SalvoController {
                 .stream()
                 .map(gamePlayer -> gamePlayerDTO(gamePlayer))
                 .collect(toList()));
-        dto.put("ships", currentGP.getShips());
-
+        dto.put("ships", currentGP.getShips().stream().map(ship -> shipDTO(ship)).collect(toList()));
+        dto.put("salvo", currentGP.getSalvo().stream().map(salvo -> salvoDTO(salvo)).collect(toList()));
         return dto;
     }
 
@@ -106,6 +105,18 @@ public class SalvoController {
         return dto;
     }
 
+    private Map<String, Object> shipDTO(Ship ship){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("type", ship.getType());
+        dto.put("shipLocation", ship.getShipLocation());
+        return dto;
+    }
 
+    private Map<String, Object> salvoDTO(Salvo salvo){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("turn", salvo.getTurn());
+        dto.put("salvoLocation", salvo.getSalvoLocation());
+        return dto;
+    }
 }
 
