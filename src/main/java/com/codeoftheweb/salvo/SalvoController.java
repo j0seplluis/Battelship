@@ -28,6 +28,9 @@ public class SalvoController {
     @Autowired
     private  ShipRepository shipRepo;
 
+    @Autowired
+    private SalvoRepository salvoRep;
+
     /*-----------------------------------------------------------------------------*/
 
     @RequestMapping("/players")
@@ -102,5 +105,7 @@ public class SalvoController {
         dto.put("player", playerDTO(gamePlayer.getPlayer()));
         return dto;
     }
+
+
 }
 

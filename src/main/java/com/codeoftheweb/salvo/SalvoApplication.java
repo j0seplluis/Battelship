@@ -18,7 +18,7 @@ public class SalvoApplication {
     }
 
     @Bean
-    public CommandLineRunner initData(PlayerRepository repository, GameRepository gameRepo, GamePlayerRepository gpRepo, ShipRepository shipRepo) {
+    public CommandLineRunner initData(PlayerRepository repository, GameRepository gameRepo, GamePlayerRepository gpRepo, ShipRepository shipRepo, SalvoRepository salvoRep) {
         return (args) -> {
 
             Player p1 = new Player("Jack", "Bauer", "Jack", "j.bauer@ctu.gov");
