@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -26,7 +28,7 @@ public class SalvoController {
     private GamePlayerRepository gpRepo;
 
     @Autowired
-    private  ShipRepository shipRepo;
+    private ShipRepository shipRepo;
 
     @Autowired
     private SalvoRepository salvoRep;
@@ -65,32 +67,33 @@ public class SalvoController {
 
     /*-----------------------------------------------------------------------------*/
 
-    private Map<String, Object> gameDTO (Game game){
+    private Map<String, Object> gameDTO(Game game) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", game.getId());
         dto.put("create", game.getDate());
-        dto.put("gamePlayer", game.getGamePlayers ()
+        dto.put("gamePlayer", game.getGamePlayers()
                 .stream()
                 .map(gamePlayer -> gamePlayerDTO(gamePlayer))
                 .collect(toList()));
         return dto;
     }
 
-    private Map<String, Object> gameViewDTO (GamePlayer currentGP){
+    private Map<String, Object> gameViewDTO(GamePlayer currentGP) {
         Game game = currentGP.getGame();
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", game.getId());
         dto.put("create", game.getDate());
-        dto.put("gamePlayer", game.getGamePlayers ()
+        dto.put("gamePlayer", game.getGamePlayers()
                 .stream()
                 .map(gamePlayer -> gamePlayerDTO(gamePlayer))
                 .collect(toList()));
         dto.put("ships", currentGP.getShips().stream().map(ship -> shipDTO(ship)).collect(toList()));
         dto.put("salvo", currentGP.getSalvo().stream().map(salvo -> salvoDTO(salvo)).collect(toList()));
+        dto.put("Opponent", getOpponent(currentGP).getSalvo().stream().map(salvo -> salvoDTO(salvo)).collect(toList()));
         return dto;
     }
 
-    private Map<String, Object> playerDTO (Player player){
+    private Map<String, Object> playerDTO(Player player) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", player.getId());
         dto.put("userName", player.getUserName());
@@ -98,25 +101,39 @@ public class SalvoController {
         return dto;
     }
 
-    private Map<String, Object> gamePlayerDTO (GamePlayer gamePlayer){
-        Map<String, Object> dto = new LinkedHashMap<String,Object>();
-        dto.put("id",gamePlayer.getId());
+    private Map<String, Object> gamePlayerDTO(GamePlayer gamePlayer) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id", gamePlayer.getId());
         dto.put("player", playerDTO(gamePlayer.getPlayer()));
         return dto;
     }
 
-    private Map<String, Object> shipDTO(Ship ship){
+    private Map<String, Object> shipDTO(Ship ship) {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("type", ship.getType());
         dto.put("shipLocation", ship.getShipLocation());
         return dto;
     }
 
-    private Map<String, Object> salvoDTO(Salvo salvo){
+    private Map<String, Object> salvoDTO(Salvo salvo) {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("turn", salvo.getTurn());
         dto.put("salvoLocation", salvo.getSalvoLocation());
         return dto;
     }
+
+    /*-----------------------------------------------------------------------------*/
+    //common methods
+
+    private GamePlayer getOpponent(GamePlayer gamePlayer) {
+        return gamePlayer.getGame()
+                .getGamePlayers()
+                .stream()
+                .filter(gamePlayer1 -> gamePlayer1.getId() != gamePlayer.getId())
+                .findAny()
+                .orElse(null);
+
+    }
+
 }
 

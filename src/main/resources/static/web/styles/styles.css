@@ -54,3 +54,10 @@ header{
     background-color: aqua;
 }
 
+.salvoLocation{
+    background-color: #000;
+}
+
+.opponentSalvoLocation{
+    background-color: rgba(0, 255, 21, 0.221);
+}
