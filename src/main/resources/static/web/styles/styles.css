@@ -3,6 +3,9 @@
     padding: 0px;
 }
 
+
+
+
 td{
     border: 1px solid #000;
     width: 30px;
@@ -35,29 +38,31 @@ header{
     background-color: darkgray;
 }
 
-.Patrol_Boat{
-    background-color: yellow;
+.hit{
+    height: 30px;
+    width: 30px;
+    background-image: url("../img/fire.gif");
+    background-size: cover;
+    background-position: center;
 }
 
-.Destroyer{
-    background-color: rebeccapurple;
+.miss{
+    height: 30px;
+    width: 30px;
+    background-image: url("../img/water.gif");
+    background-size: cover;
+    background-position: center;
 }
 
-.Submarine{
-    background-color: red;
-}
-
-.Battleship{
-    background-color: green;
-}
-.Carrier{
-    background-color: aqua;
+.ships{
+    background-color: yellow;  
 }
 
 .salvoLocation{
-    background-color: #000;
+    background-color: #c5c5c5;
 }
 
 .opponentSalvoLocation{
     background-color: rgba(0, 255, 21, 0.221);
+   
 }

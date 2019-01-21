@@ -59,6 +59,7 @@ let vue = new Vue({
                     this.showShips(this.gameData);
                     this.showPlayers(this.gameData);
                     this.showSalvoes(this.gameData);
+                    // this.showTurns(this.gameData);
 
                 })
             // .catch(function (error) {     console.log("Request failed: " +
@@ -72,7 +73,7 @@ let vue = new Vue({
                     document
                         .getElementById(gameData.ships[i].shipLocation[j])
                         .classList
-                        .add(gameData.ships[i].type);
+                        .add("ships");
                 }
             }
         },
@@ -96,23 +97,55 @@ let vue = new Vue({
             }
         },
 
+        // showTurns: function (gameData) {
+        //     this.gameData.Opponent.forEach(function(turno){
+        //         turno.salvoLocation.forEach(function(pos){
+        //             document
+        //             .getElementById(gameData.Opponent[i].salvoLocation[j]).innerHTML = this.gameData.Opponent[i].turn;
+        //       });
+        //       });
+       
+        //       this.gameData.salvo.forEach(function(turno){
+        //         turno.salvoLocation.forEach(function(pos){
+        //             document
+        //             .getElementById(gameData.salvo[i].salvoLocation[j] + "o").innerHTML = this.gameData.salvo[i].turn;
+        //       });
+        //       });
+       
+        // },
+
         showSalvoes: function (gameData) {
             //TheirShots
+
             for (let i = 0; i < gameData.Opponent.length; i++) {
                 for (let j = 0; j < gameData.Opponent[i].salvoLocation.length; j++) {
                     document
-                        .getElementById(gameData.Opponent[i].salvoLocation[j])
-                        .classList
-                        .add("opponentSalvoLocation")
+                    .getElementById(gameData.Opponent[i].salvoLocation[j]).innerHTML = this.gameData.Opponent[i].turn;
+    
+                    if (document.getElementById(gameData.Opponent[i].salvoLocation[j]).classList.contains("ships")) {
+                        document
+                            .getElementById(gameData.Opponent[i].salvoLocation[j])
+                            .classList
+                            .add("hit");
+
+                    } else {
+                        document
+                            .getElementById(gameData.Opponent[i].salvoLocation[j])
+                            .classList
+                            .add("miss");
+                    }
                 }
             }
             //MyShots
             for (let i = 0; i < gameData.salvo.length; i++) {
                 for (let j = 0; j < gameData.salvo[i].salvoLocation.length; j++) {
                     document
+                    .getElementById(gameData.salvo[i].salvoLocation[j] + "o").innerHTML = this.gameData.salvo[i].turn;
+                    document
                         .getElementById(gameData.salvo[i].salvoLocation[j] + "o")
                         .classList
-                        .add("salvoLocation")
+                        .add("hit");
+
                 }
             }
         }
