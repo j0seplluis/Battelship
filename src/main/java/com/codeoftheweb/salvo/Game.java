@@ -29,7 +29,7 @@ public class Game {
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
-    @OneToMany(mappedBy="score", fetch= FetchType.EAGER)
+    @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
     private Set<Score> score = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {

@@ -33,6 +33,9 @@ public class SalvoController {
     @Autowired
     private SalvoRepository salvoRep;
 
+    @Autowired
+    private ScoreRepository scoreRep;
+
     /*-----------------------------------------------------------------------------*/
 
     @RequestMapping("/players")
@@ -75,6 +78,7 @@ public class SalvoController {
                 .stream()
                 .map(gamePlayer -> gamePlayerDTO(gamePlayer))
                 .collect(toList()));
+
         return dto;
     }
 
@@ -122,6 +126,13 @@ public class SalvoController {
         return dto;
     }
 
+    private Map<String , Object> scoreDTO(Score score) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("score", score.getScore());
+        dto.put("endDate", score.getEndDate());
+        dto.put("player", score.getPlayer());
+        return dto;
+    }
 
 
 

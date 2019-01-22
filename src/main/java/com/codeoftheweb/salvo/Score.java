@@ -24,15 +24,16 @@ public class Score {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="game")
-    private Player game;
+    private Game game;
 
     //constructor
     public Score() {
     }
 
-    public Score(Double score, Date endDate) {
+    public Score (Player player, Game game, Double score) {
+        this.player = player;
+        this.game = game;
         this.score = score;
-        this.endDate = endDate;
     }
 
 
@@ -66,14 +67,11 @@ public class Score {
         this.player = player;
     }
 
-    public Player getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(Player game) {
+    public void setGame(Game game) {
         this.game = game;
     }
-
-
-
 }
