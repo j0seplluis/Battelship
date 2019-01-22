@@ -1,6 +1,7 @@
 package com.codeoftheweb.salvo;
 
 import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,8 +26,11 @@ public class Game {
 
     private Date date;
 
-    @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
+
+    @OneToMany(mappedBy="score", fetch= FetchType.EAGER)
+    private Set<Score> score = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setGame(this);
@@ -35,11 +39,12 @@ public class Game {
 
 
     //constructor
-
-    public Game(){
-        this.date = new Date();
+    public Game() {
     }
 
+    public Game(Date date) {
+        this.date = new Date();
+    }
 
     //methods
 

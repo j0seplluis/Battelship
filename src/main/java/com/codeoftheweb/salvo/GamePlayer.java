@@ -37,6 +37,7 @@ public class GamePlayer {
 
 
 
+
     //constructor
 
     public GamePlayer() { }
@@ -92,6 +93,10 @@ public class GamePlayer {
 
     public void setSalvo(Set<Salvo> salvo) {
         this.salvo = salvo;
+    }
+
+    public Score getScore(){
+        return this.player.getScores(this.game);
     }
 }
 
