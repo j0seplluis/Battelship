@@ -68,6 +68,23 @@ public class SalvoController {
         return gameViewDTO(currentGP);
     }
 
+    @RequestMapping("/leaderboard")
+    public Map<String , Object> getScores(){
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        List<GamePlayer> gamePlayers = gpRepo.findAll();
+        for (GamePlayer gp: gamePlayers) {
+            Map<String, Object> scores = new LinkedHashMap<>();
+            if (!scores.containsKey(gp.getPlayer().getUserName())){
+                    scores.put("Wins", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 1).count());
+                    scores.put("Tie", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0.5).count());
+                    scores.put("Lost", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0).count());
+                    scores.put("Total", gp.getPlayer().getScore().stream().mapToDouble(score -> score.getScore()).sum());
+                dto.put(gp.getPlayer().getUserName(), scores);
+            }
+        }
+        return dto;
+    }
+
     /*-----------------------------------------------------------------------------*/
 
     private Map<String, Object> gameDTO(Game game) {
@@ -109,6 +126,11 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", gamePlayer.getId());
         dto.put("player", playerDTO(gamePlayer.getPlayer()));
+        if(gamePlayer.getScore() != null){
+            dto.put("score", gamePlayer.getScore().getScore());
+        }else{
+            dto.put("score", null);
+        }
         return dto;
     }
 

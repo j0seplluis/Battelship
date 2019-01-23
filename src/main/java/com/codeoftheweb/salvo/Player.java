@@ -97,7 +97,13 @@ public class Player {
         return  score.stream().filter(score ->score.getGame().equals(game)).findFirst().orElse(null);
     }
 
+    public Set<Score> getScore() {
+        return score;
+    }
 
+    public void setScore(Set<Score> score) {
+        this.score = score;
+    }
 
     @Override
     public String toString() {

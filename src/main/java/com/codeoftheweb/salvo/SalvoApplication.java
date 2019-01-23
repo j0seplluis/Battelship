@@ -326,18 +326,7 @@ public class SalvoApplication {
             scoreRep.save(score7);
             Score score8 = new Score(p1, g4, 0.5);
             scoreRep.save(score8);
-            Score score9 = new Score(p4, g5, null);
-            scoreRep.save(score9);
-            Score score10 = new Score(p1, g5, null);
-            scoreRep.save(score10);
-            Score score11 = new Score(p3, g6, null);
-            scoreRep.save(score11);
-            Score score12 = new Score(p4, g7, null);
-            scoreRep.save(score12);
-            Score score13 = new Score(p3, g8, null);
-            scoreRep.save(score13);
-            Score score14 = new Score(p4, g8, null);
-            scoreRep.save(score14);
+
 
             /*------------------------------------------------------------------------------------------------------------*/
 
