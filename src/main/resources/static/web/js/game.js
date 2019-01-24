@@ -59,12 +59,12 @@ let vue = new Vue({
                     this.showShips(this.gameData);
                     this.showPlayers(this.gameData);
                     this.showSalvoes(this.gameData);
-                    
 
                 })
-            // .catch(function (error) {     console.log("Request failed: " +
-            // error.message); })
-        },
+                .catch(function (error) {
+                    console.log("Request failed: " + error.message);
+                })
+            },
 
         showShips: function (gameData) {
             console.log(gameData.ships.length);
@@ -97,66 +97,64 @@ let vue = new Vue({
             }
         },
 
-       
         showSalvoes: function (gameData) {
-            //TheirShots
-            // for (let i = 0; i < gameData.Opponent.length; i++) {
-            //     for (let j = 0; j < gameData.Opponent[i].salvoLocation.length; j++) {
-            //         document
-            //         .getElementById(gameData.Opponent[i].salvoLocation[j]).innerHTML = this.gameData.Opponent[i].turn;
-            //         if (document.getElementById(gameData.Opponent[i].salvoLocation[j]).classList.contains("ships")) {
-            //             document
-            //                 .getElementById(gameData.Opponent[i].salvoLocation[j])
-            //                 .classList
-            //                 .add("hit");
-            //         } else {
-            //             document
-            //                 .getElementById(gameData.Opponent[i].salvoLocation[j])
-            //                 .classList
-            //                 .add("miss");
-            //         }
-            //     }
-            // }
-            //My shots
-            // for (let i = 0; i < gameData.salvo.length; i++) {
-            //     for (let j = 0; j < gameData.salvo[i].salvoLocation.length; j++) {
-            //         document
-            //         .getElementById(gameData.salvo[i].salvoLocation[j] + "o").innerHTML = this.gameData.salvo[i].turn;     
-            //         document
-            //             .getElementById(gameData.salvo[i].salvoLocation[j] + "o")
-            //             .classList
-            //             .add("hit");
-            //     }
-            // }
-
             //Opponent shots
-            gameData.Opponent.forEach(element => {
-                element.salvoLocation.forEach(loc => {
-                    let cell = document
-                    .getElementById(loc);
+            gameData
+                .Opponent
+                .forEach(element => {
+                    element
+                        .salvoLocation
+                        .forEach(loc => {
+                            let cell = document.getElementById(loc);
 
-                    cell.innerHTML = element.turn;
+                            cell.innerHTML = element.turn;
 
-                    if(cell.classList.contains("ships")){
-                        cell.classList
-                        .add("hit");
-                    }else{
-                        cell.classList
-                        .add("miss");
-                    }
-                })
-            });
+                            if (cell.classList.contains("ships")) {
+                                cell
+                                    .classList
+                                    .add("hit");
+                            } else {
+                                cell
+                                    .classList
+                                    .add("miss");
+                            }
+                        })
+                });
 
             //MyShots
-            gameData.salvo.forEach(element =>{
-                element.salvoLocation.forEach(loc =>{
-                    let cell = document.getElementById(loc + "o");
-                    cell.innerHTML = element.turn;
+            gameData
+                .salvo
+                .forEach(element => {
+                    element
+                        .salvoLocation
+                        .forEach(loc => {
+                            let cell = document.getElementById(loc + "o");
+                            cell.innerHTML = element.turn;
 
-                    cell.classList.add("hit")
-                })
-            });
-        }
+                            cell
+                                .classList
+                                .add("hit")
+                        })
+                });
+        },
+        // TheirShots 
+        //for (let i = 0; i < gameData.Opponent.length; i++) {     
+        //    for (let j = 0; j < gameData.Opponent[i].salvoLocation.length; j++) {         
+        //          document.getElementById(gameData.Opponent[i].salvoLocation[j]).innerHTML =
+        //          this.gameData.Opponent[i].turn;         
+        //          if (document.getElementById(gameData.Opponent[i].salvoLocation[j]).classList.contains("ships")){            
+        //               document.getElementById(gameData.Opponent[i].salvoLocation[j]).classList.add("hit");  
+        //          } else {              
+        //              document.getElementById(gameData.Opponent[i].salvoLocation[j]).classList.add("miss");
+        //          }} 
+        //      } 
+        // My shots 
+        // for (leti = 0; i < gameData.salvo.length; i++) {     
+        //     for (let j = 0; j <gameData.salvo[i].salvoLocation.length; j++) {         
+        //          document.getElementById(gameData.salvo[i].salvoLocation[j] + "o").innerHTML =
+        //          this.gameData.salvo[i].turn;         
+        //      document.getElementById(gameData.salvo[i].salvoLocation[j] + "o").classList.add("hit");  
+        // } }
     },
 
     created: function () {

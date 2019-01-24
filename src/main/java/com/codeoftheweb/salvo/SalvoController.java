@@ -95,7 +95,6 @@ public class SalvoController {
                 .stream()
                 .map(gamePlayer -> gamePlayerDTO(gamePlayer))
                 .collect(toList()));
-
         return dto;
     }
 

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,28 +36,28 @@ public class SalvoApplication {
 
             /*------------------------------------------------------------------------------------------------------------*/
 
-            Game g1 = new Game();
+            Game g1 = new Game(new Date());
             gameRepo.save(g1);
 
-            Game g2 = new Game();
+            Game g2 = new Game(new Date());
             gameRepo.save(g2);
 
-            Game g3 = new Game();
+            Game g3 = new Game(new Date());
             gameRepo.save(g3);
 
-            Game g4 = new Game();
+            Game g4 = new Game(new Date());
             gameRepo.save(g4);
 
-            Game g5 = new Game();
+            Game g5 = new Game(new Date());
             gameRepo.save(g5);
 
-            Game g6 = new Game();
+            Game g6 = new Game(new Date());
             gameRepo.save(g6);
 
-            Game g7 = new Game();
+            Game g7 = new Game(new Date());
             gameRepo.save(g7);
 
-            Game g8 = new Game();
+            Game g8 = new Game(new Date());
             gameRepo.save(g8);
             /*------------------------------------------------------------------------------------------------------------*/
 

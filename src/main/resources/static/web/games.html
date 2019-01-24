@@ -1,18 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Salvo</title>
-    <link rel="stylesheet" href="./styles/styles.css">
+    <head>
+        <meta charset="UTF-8">
+        <title>Games</title>
+        <link rel="stylesheet" href="./styles/styles.css">
+    </head>
 
-</head>
+    <body>
+        <div id="myApp">
 
-<body>
+           <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Game</th>
+                            <th>Game Time</th>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                            <th>¿Join?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in games">
+                            <td>{{item.id}}</td>
+                            <td>{{item.create}}</td>
+                            <td v-for="gp in sortedGamePlayers([...item.gamePlayer])">{{gp.player.userName}}</td>
+                            <td v-if="item.gamePlayer.length == 1">Waiting for...</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+               
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Win</th>
+                            <th>Tie</th>
+                            <th>Lost</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in scores">
+                            <td>{{index}}</td>
+                            <td>{{item.Wins}}</td>
+                            <td>{{item.Tie}}</td>
+                            <td>{{item.Lost}}</td>
+                            <td>{{item.Total}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+           </div>
 
-<ol id="games">
-</ol>
 
 
-<script src="./js/games.js"></script>
-</body>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="./js/games.js"></script>
+    </body>
 </html>

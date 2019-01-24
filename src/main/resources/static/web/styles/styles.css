@@ -3,8 +3,7 @@
     padding: 0px;
 }
 
-
-
+/* ----------------------GAME.HTML--------------------------------- */
 
 td{
     border: 1px solid #000;
@@ -65,4 +64,10 @@ header{
 .opponentSalvoLocation{
     background-color: rgba(0, 255, 21, 0.221);
    
+}
+
+/* ----------------------GAMES.HTML--------------------------------- */
+
+.table{
+    display: flex;
 }
