@@ -1,17 +1,29 @@
 package com.codeoftheweb.salvo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 
+
 @SpringBootApplication
 public class SalvoApplication {
+
 
 
     public static void main(String[] args) {
@@ -19,19 +31,24 @@ public class SalvoApplication {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
     public CommandLineRunner initData(PlayerRepository repository, GameRepository gameRepo, GamePlayerRepository gpRepo, ShipRepository shipRepo, SalvoRepository salvoRep, ScoreRepository scoreRep) {
         return (args) -> {
 
-            Player p1 = new Player("Jack", "Bauer", "Jack", "j.bauer@ctu.gov");
+            Player p1 = new Player("Jack", "Bauer", "j.bauer@ctu.gov", "Jack", "24");
             repository.save(p1);
 
-            Player p2 = new Player("Chloe", "O'Brian", "Chloe", "c.obrian@ctu.gov");
+            Player p2 = new Player("Chloe", "O'Brian", "c.obrian@ctu.gov", "Chloe", "42");
             repository.save(p2);
 
-            Player p3 = new Player("Kim", "Bauer", "Kim", "kim_bauer@gmail.com");
+            Player p3 = new Player("Kim", "Bauer", "kim_bauer@gmail.com", "Kim", "kb" );
             repository.save(p3);
 
-            Player p4 = new Player("Tony", "Almeida", "Tony", "t.almeida@ctu.gov");
+            Player p4 = new Player("Tony", "Almeida", "t.almeida@ctu.gov", "Tony", "mole");
             repository.save(p4);
 
             /*------------------------------------------------------------------------------------------------------------*/
@@ -332,7 +349,31 @@ public class SalvoApplication {
             /*------------------------------------------------------------------------------------------------------------*/
 
 
+
         };
     }
 }
 
+@Configuration
+class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+
+    @Autowired
+    PlayerRepository repository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+    @Override
+    public void init(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(inputName-> {
+            Player player = repository.findByEmail(inputName);
+            if (player != null) {
+                return new User(player.getEmail(), passwordEncoder.encode(player.getPassword()),
+                        AuthorityUtils.createAuthorityList("USER"));
+            } else {
+                throw new UsernameNotFoundException("Unknown user: " + inputName);
+            }
+        });
+    }
+}

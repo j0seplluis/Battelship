@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>game</title>
-    <link rel="stylesheet" href="./styles/styles.css">
+    <head>
+        <meta charset="UTF-8">
+        <title>game</title>
+        <link rel="stylesheet" href="./styles/styles.css">
 
-</head>
-<body>
+    </head>
+    <body>
 
-<div id="myApp">
+        <div id="myApp">
 
-<header>
-    <h1 class="title">Battleship</h1>
-    <h4 id="players">{{gamePlayer_1}} (You) vs {{gamePlayer_2}}</h4>
-</header>
+            <header>
+                <h1 class="title">Battleship</h1>
+                <h4 id="players">{{gamePlayer_1}}
+                    (You) vs
+                    {{gamePlayer_2}}</h4>
+            </header>
 
-    <div class="game">
-            <div class="gameBoard">
-                <table class=grid>
-                    <tr v-for="letter, j in letters">
-                        <td v-for="number,i in numbers" v-bind:id="letter + number">
-                            <span v-if="j == 0 || i == 0">{{letter + number}}</span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <div class="game">
+                <div class="gameBoard">
+                    <table class="grid">
+                        <tr v-for="letter, j in letters">
+                            <td v-for="number,i in numbers" v-bind:id="letter + number">
+                                <span v-if="j == 0 || i == 0">{{letter + number}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-            <div class="gameBoard">
-                    <table class=grid>
+                <div class="gameBoard">
+                    <table class="grid">
                         <tr v-for="letter, j in letters">
                             <td v-for="number,i in numbers" v-bind:id="letter + number + 'o'">
                                 <span v-if="j == 0 || i == 0">{{letter + number}}</span>
@@ -35,14 +37,13 @@
                         </tr>
                     </table>
                 </div>
-        
-    </div>
 
+            </div>
 
-</div>
+        </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="./js/game.js"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="./js/game.js"></script>
+    </body>
 
 </html>

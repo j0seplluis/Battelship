@@ -22,6 +22,7 @@ public class Player {
     private String lastName;
     private String userName;
     private String email;
+    private String password;
 
     @OneToMany(mappedBy="player", fetch= FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
@@ -35,15 +36,17 @@ public class Player {
     }
 
 
+
     //constructor
 
     public Player() { }
 
-    public Player(String first, String last, String user, String email) {
+    public Player(String first, String last,  String email, String user, String password) {
         this.firstName = first;
         this.lastName = last;
         this.userName = user;
         this.email = email;
+        this.password = password;
     }
 
 
@@ -105,11 +108,11 @@ public class Player {
         this.score = score;
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
