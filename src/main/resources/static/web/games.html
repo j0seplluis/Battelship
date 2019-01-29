@@ -9,7 +9,21 @@
     <body>
         <div id="myApp">
 
-           <div class="table">
+            <div>
+                <form onsubmit="return false" v-if="!ourData.player">
+                    <label>User Name:
+                        <input v-model="ourData.name" type="text" placeholder="Your Email" required="required"></label>
+                    <label>Password:
+                        <input v-model="ourData.pwd" type="password" placeholder="password" required="required"></label>
+                    <button @click="getLogIn">Log in</button>
+                </form>
+
+                <form id="logout-form" onsubmit="return false">
+                    <button @click="getLogOut">Log out</button>
+                </form>
+            </div>
+
+            <div class="table">
                 <table>
                     <thead>
                         <tr>
@@ -21,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in games">
+                        <tr v-for="item in games.games">
                             <td>{{item.id}}</td>
                             <td>{{item.create}}</td>
                             <td v-for="gp in sortedGamePlayers([...item.gamePlayer])">{{gp.player.userName}}</td>
@@ -30,7 +44,7 @@
                         </tr>
                     </tbody>
                 </table>
-               
+
                 <table>
                     <thead>
                         <tr>
@@ -51,10 +65,7 @@
                         </tr>
                     </tbody>
                 </table>
-           </div>
-
-
-
+            </div>
 
         </div>
 

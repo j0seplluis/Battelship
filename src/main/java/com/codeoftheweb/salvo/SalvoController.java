@@ -1,11 +1,13 @@
 package com.codeoftheweb.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,8 +21,6 @@ import static java.util.stream.Collectors.toList;
 
 public class SalvoController {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Autowired
     private PlayerRepository playerRep;
@@ -40,7 +40,28 @@ public class SalvoController {
     @Autowired
     private ScoreRepository scoreRep;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     /*-----------------------------------------------------------------------------*/
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Object> register(
+            @RequestParam String first, @RequestParam String last,
+            @RequestParam String email, @RequestParam String password) {
+
+        if (first.isEmpty() || last.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        }
+
+        if (playerRep.findByEmail(email) != null) {
+            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+        }
+
+        playerRep.save(new Player(first, last, email, passwordEncoder.encode(password)));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 
     @RequestMapping("/players")
     public List<Object> getPlayer() {
@@ -51,11 +72,18 @@ public class SalvoController {
     }
 
     @RequestMapping("/games")
-    public List<Object> getGames() {
-        return gameRepo.findAll()
+    public Map<String, Object> getGames(Authentication authentication) {
+        Map<String, Object> dto = new HashMap<>();
+
+        if (authentication != null) {
+            Player loggedPlayer = playerRep.findByEmail(authentication.getName());
+            dto.put("player", loggedPlayer.getEmail());
+        }
+        dto.put("games", gameRepo.findAll()
                 .stream()
                 .map(item -> gameDTO(item))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
+        return dto;
     }
 
     @RequestMapping("/gameplayer")
@@ -73,16 +101,16 @@ public class SalvoController {
     }
 
     @RequestMapping("/leaderboard")
-    public Map<String , Object> getScores(){
+    public Map<String, Object> getScores() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         List<GamePlayer> gamePlayers = gpRepo.findAll();
-        for (GamePlayer gp: gamePlayers) {
+        for (GamePlayer gp : gamePlayers) {
             Map<String, Object> scores = new LinkedHashMap<>();
-            if (!scores.containsKey(gp.getPlayer().getUserName())){
-                    scores.put("Wins", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 1).count());
-                    scores.put("Tie", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0.5).count());
-                    scores.put("Lost", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0).count());
-                    scores.put("Total", gp.getPlayer().getScore().stream().mapToDouble(score -> score.getScore()).sum());
+            if (!scores.containsKey(gp.getPlayer().getUserName())) {
+                scores.put("Wins", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 1).count());
+                scores.put("Tie", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0.5).count());
+                scores.put("Lost", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0).count());
+                scores.put("Total", gp.getPlayer().getScore().stream().mapToDouble(score -> score.getScore()).sum());
                 dto.put(gp.getPlayer().getUserName(), scores);
             }
         }
@@ -129,9 +157,9 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", gamePlayer.getId());
         dto.put("player", playerDTO(gamePlayer.getPlayer()));
-        if(gamePlayer.getScore() != null){
+        if (gamePlayer.getScore() != null) {
             dto.put("score", gamePlayer.getScore().getScore());
-        }else{
+        } else {
             dto.put("score", null);
         }
         return dto;
@@ -151,7 +179,7 @@ public class SalvoController {
         return dto;
     }
 
-    private Map<String , Object> scoreDTO(Score score) {
+    private Map<String, Object> scoreDTO(Score score) {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("score", score.getScore());
         dto.put("endDate", score.getEndDate());

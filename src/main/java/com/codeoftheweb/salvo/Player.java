@@ -41,14 +41,20 @@ public class Player {
 
     public Player() { }
 
-    public Player(String first, String last,  String email, String user, String password) {
-        this.firstName = first;
-        this.lastName = last;
-        this.userName = user;
+    public Player(String firstName, String lastName, String userName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
         this.email = email;
         this.password = password;
     }
 
+    public Player(String first, String last, String email, String password) {
+        this.firstName = first;
+        this.lastName = last;
+        this.email = email;
+        this.password = password;
+    }
 
     //methods
 
