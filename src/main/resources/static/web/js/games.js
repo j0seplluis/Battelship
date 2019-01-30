@@ -8,21 +8,23 @@ let vue = new Vue({
         ourData: {
             name: "",
             pwd: ""
-        }
+        },
+        player: "",
     },
 
     methods: {
         getLogIn: function () {
             fetch("/api/login", {
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                method: 'POST',
-                body: this.getBody(this.ourData)
-            })
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    method: 'POST',
+                    body: this.getBody(this.ourData),
+                })
                 .then(function (data) {
                     console.log('Request success: ', data);
+                    window.location.reload();
                 })
                 .catch(error => {
                     console.log('Request failure: ', error);
@@ -30,9 +32,12 @@ let vue = new Vue({
         },
 
         getLogOut: function () {
-            fetch("/api/logout", {method: 'POST'})
+            fetch("/api/logout", {
+                    method: 'POST'
+                })
                 .then(data => {
                     console.log('Request success: ', data);
+                    window.location.reload();
                 })
                 .catch(function (error) {
                     console.log('Request failure: ', error);
@@ -48,8 +53,9 @@ let vue = new Vue({
                     throw new Error(response.statusText);
                 })
                 .then(json => {
-                    this.games = json;
-                    console.log(this.games);
+                    this.games = json.games;
+                    this.player = json.player;
+                    console.log(json);
 
                     //functions to call
 
@@ -57,7 +63,7 @@ let vue = new Vue({
                 .catch(function (error) {
                     console.log("Request failed: " + error.message);
                 })
-            },
+        },
 
         getScores: function () {
             fetch("/api/leaderboard")
@@ -77,17 +83,17 @@ let vue = new Vue({
                 .catch(function (error) {
                     console.log("Request failed: " + error.message);
                 })
-            },
+        },
 
         sortedGamePlayers(gp) {
             return gp.sort(
-                (a, b) => (Number(a.id) > Number(b.id))
-                    ? 1
-                    : (
-                        (Number(b.id) > Number(a.id))
-                            ? -1
-                            : 0
-                    )
+                (a, b) => (Number(a.id) > Number(b.id)) ?
+                1 :
+                (
+                    (Number(b.id) > Number(a.id)) ?
+                    -1 :
+                    0
+                )
             );
         },
 
@@ -107,6 +113,7 @@ let vue = new Vue({
     created: function () {
         this.getData();
         this.getScores();
+
     }
 
 });

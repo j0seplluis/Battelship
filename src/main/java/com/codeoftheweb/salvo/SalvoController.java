@@ -75,6 +75,9 @@ public class SalvoController {
     public Map<String, Object> getGames(Authentication authentication) {
         Map<String, Object> dto = new HashMap<>();
 
+        if (authentication == null){
+            dto.put("player", null);
+        }
         if (authentication != null) {
             Player loggedPlayer = playerRep.findByEmail(authentication.getName());
             dto.put("player", loggedPlayer.getEmail());
