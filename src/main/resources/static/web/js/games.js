@@ -38,6 +38,10 @@ let vue = new Vue({
                 alert("Something is missing, please try again")
 
             };
+            //UNAUTHORIZED
+            if (status == 401) {
+                alert("Something went wrong, please try again")
+            }
             //CONFLICT
             if (status == 409) {
                 alert("Email already exist, please try again")
@@ -59,6 +63,7 @@ let vue = new Vue({
                 })
                 .then(function (data) {
                     console.log('Request success: ', data);
+                    vue.getError(data.status);
                     window
                         .location
                         .reload();

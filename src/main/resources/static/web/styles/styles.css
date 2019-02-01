@@ -1,43 +1,62 @@
-*{
+* {
     margin: 0px;
     padding: 0px;
+    font-size: 20px;
 }
 
 /* ----------------------GAME.HTML--------------------------------- */
 
-td{
-    border: 1px solid #000;
+td {
+    border: 1px solid #00FF66;
     width: 30px;
     height: 30px;
     text-align: center;
 }
 
-header{
+header {
     text-align: center;
-    height: 150px;
+    height: 200px;
 }
 
-.game{
+body {
+    background-color: #282828;
+    color: #00FF66;
+    font-family: 'VT323', monospace;
+}
+
+h1 {
+    font-size: 90px;
+    text-align: center;
+}
+
+h4 {
+    font-size: 30px;
+    text-align: center;
+}
+
+
+
+.game {
     display: flex;
     justify-content: space-around;
 }
 
-.gameBoard{
+.gameBoard {
     display: flex;
-    
+
 
 }
 
-.grid{
+.grid {
     width: 400px;
     height: 400px;
 }
 
-.shipSpace{
+.shipSpace {
     background-color: darkgray;
 }
 
-.hit{
+.hit {
     height: 30px;
     width: 30px;
     background-image: url("../img/fire.gif");
@@ -45,7 +64,7 @@ header{
     background-position: center;
 }
 
-.miss{
+.miss {
     height: 30px;
     width: 30px;
     background-image: url("../img/water.gif");
@@ -53,21 +72,30 @@ header{
     background-position: center;
 }
 
-.ships{
-    background-color: yellow;  
+.ships {
+    background-color: yellow;
 }
 
-.salvoLocation{
+.salvoLocation {
     background-color: #c5c5c5;
 }
 
-.opponentSalvoLocation{
+.opponentSalvoLocation {
     background-color: rgba(0, 255, 21, 0.221);
-   
+
 }
 
 /* ----------------------GAMES.HTML--------------------------------- */
 
-.table{
+.table {
     display: flex;
+    justify-content: space-around;
+}
+
+.form {
+    height: 100px;
+}
+
+.greetings {
+    height: 70px;
 }

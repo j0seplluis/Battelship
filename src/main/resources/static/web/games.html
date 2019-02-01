@@ -4,76 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Games</title>
+    <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
     <link rel="stylesheet" href="./styles/styles.css">
 </head>
 
 <body>
     <div id="myApp">
 
-        <h1>LEADERBOARD</h1>
+        <div class="main">
 
-        <div>
-            <div v-if="!player">
-                <h4>Come on in!!!</h4>
-                <form onsubmit="return false">
-                    <label>User Name:
-                        <input v-model="ourData.name" type="text" placeholder="Your Email" required="required"></label>
-                    <label>Password:
-                        <input v-model="ourData.pwd" type="password" placeholder="password" required="required"></label>
-                    <button @click="getLogIn">Log in</button>
-                    <button @click="getSignUp">Sign up</button>
-                </form>
+            <div class="title">
+                <h1>LEADERBOARD</h1>
             </div>
 
-            <div v-else>
-                <h4>Wellcome</h4>
-                <button @click="getLogOut">Log out</button>
+            <div class="form">
+                <div v-if="!player">
+                    <div class="greetings">
+                        <h4>Come on in!!!</h4>
+                    </div>
+                    <form onsubmit="return false">
+                        <label>User Name:
+                            <input v-model="ourData.name" type="text" placeholder="Your Email" required="required"></label>
+                        <label>Password:
+                            <input v-model="ourData.pwd" type="password" placeholder="password" required="required"></label>
+                        <button @click="getLogIn">Log in</button>
+                        <button @click="getSignUp">Sign up</button>
+                    </form>
+                </div>
+
+                <div v-else="v-else">
+                    <div class="greetings">
+                        <h4>Wellcome</h4>
+                    </div>
+                    <button @click="getLogOut">Log out</button>
+                </div>
             </div>
-        </div>
 
-        <div class="table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Game</th>
-                        <th>Game Time</th>
-                        <th>Player 1</th>
-                        <th>Player 2</th>
-                        <th>¿Join?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in games">
-                        <td>{{item.id}}</td>
-                        <td>{{item.create}}</td>
-                        <td v-for="gp in sortedGamePlayers([...item.gamePlayer])">{{gp.player.userName}}</td>
-                        <td v-if="item.gamePlayer.length == 1">Waiting for...</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Game</th>
+                            <th>Game Time</th>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                            <th>¿Join?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in games">
+                            <td>{{item.id}}</td>
+                            <td>{{item.create}}</td>
+                            <td v-for="gp in sortedGamePlayers([...item.gamePlayer])">{{gp.player.userName}}</td>
+                            <td v-if="item.gamePlayer.length == 1">Waiting for...</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Win</th>
-                        <th>Tie</th>
-                        <th>Lost</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, index) in scores">
-                        <td>{{index}}</td>
-                        <td>{{item.Wins}}</td>
-                        <td>{{item.Tie}}</td>
-                        <td>{{item.Lost}}</td>
-                        <td>{{item.Total}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Win</th>
+                            <th>Tie</th>
+                            <th>Lost</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in scores">
+                            <td>{{index}}</td>
+                            <td>{{item.Wins}}</td>
+                            <td>{{item.Tie}}</td>
+                            <td>{{item.Lost}}</td>
+                            <td>{{item.Total}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div class="main">
 
     </div>
 
