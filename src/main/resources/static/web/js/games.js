@@ -9,10 +9,45 @@ let vue = new Vue({
             name: "",
             pwd: ""
         },
-        player: "",
+        player: ""
     },
 
     methods: {
+        getSignUp: function () {
+            fetch("/api/players", {
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    method: 'POST',
+                    body: this.getBody(this.ourData)
+                })
+                .then(function (data) {
+                    console.log('Request success: ', data);
+                    vue.getError(data.status);
+
+                })
+                .catch(error => {
+                    console.log('Request failure: ', error);
+                });
+        },
+
+        getError: function (status) {
+            //BAD_RQUEST
+            if (status == 400) {
+                alert("Something is missing, please try again")
+
+            };
+            //CONFLICT
+            if (status == 409) {
+                alert("Email already exist, please try again")
+            };
+            //CREATED
+            if (status == 201) {
+                this.getLogIn();
+            }
+        },
+
         getLogIn: function () {
             fetch("/api/login", {
                     credentials: 'include',
@@ -20,11 +55,13 @@ let vue = new Vue({
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     method: 'POST',
-                    body: this.getBody(this.ourData),
+                    body: this.getBody(this.ourData)
                 })
                 .then(function (data) {
                     console.log('Request success: ', data);
-                    window.location.reload();
+                    window
+                        .location
+                        .reload();
                 })
                 .catch(error => {
                     console.log('Request failure: ', error);
@@ -37,7 +74,9 @@ let vue = new Vue({
                 })
                 .then(data => {
                     console.log('Request success: ', data);
-                    window.location.reload();
+                    window
+                        .location
+                        .reload();
                 })
                 .catch(function (error) {
                     console.log('Request failure: ', error);

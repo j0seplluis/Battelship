@@ -21,11 +21,12 @@
                     <label>Password:
                         <input v-model="ourData.pwd" type="password" placeholder="password" required="required"></label>
                     <button @click="getLogIn">Log in</button>
+                    <button @click="getSignUp">Sign up</button>
                 </form>
             </div>
 
             <div v-else>
-                <h4>Wellcome {{ourData.name}}</h4>
+                <h4>Wellcome</h4>
                 <button @click="getLogOut">Log out</button>
             </div>
         </div>

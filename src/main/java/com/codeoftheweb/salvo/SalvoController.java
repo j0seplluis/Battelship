@@ -46,20 +46,23 @@ public class SalvoController {
     /*-----------------------------------------------------------------------------*/
 
     @RequestMapping(path = "/players", method = RequestMethod.POST)
-    public ResponseEntity<Object> register(
-            @RequestParam String first, @RequestParam String last,
-            @RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> register(String name, String pwd) {
 
-        if (first.isEmpty() || last.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        if (name.isEmpty() || pwd.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "Missing data"), HttpStatus.BAD_REQUEST);
         }
 
-        if (playerRep.findByEmail(email) != null) {
-            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+        if (playerRep.findByEmail(name) != null) {
+            return new ResponseEntity<>(makeMap("error", "Name already in use"), HttpStatus.CONFLICT);
         }
 
-        playerRep.save(new Player(first, last, email, passwordEncoder.encode(password)));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        playerRep.save(new Player(name, passwordEncoder.encode(pwd)));
+        return new ResponseEntity<>(makeMap("email", name),HttpStatus.CREATED);
+    }
+    private Map<String,Object> makeMap(String key, Object value){
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
     }
 
 
@@ -80,7 +83,7 @@ public class SalvoController {
         }
         if (authentication != null) {
             Player loggedPlayer = playerRep.findByEmail(authentication.getName());
-            dto.put("player", loggedPlayer.getEmail());
+            dto.put("player", playerDTO(loggedPlayer));
         }
         dto.put("games", gameRepo.findAll()
                 .stream()

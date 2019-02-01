@@ -392,7 +392,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/web/games.html").permitAll()
                 .antMatchers("/api/players").permitAll()
                 .antMatchers("/api/leaderboard").permitAll()
-                .antMatchers("/api/games").permitAll();
+                .antMatchers("/api/games").permitAll()
+                .antMatchers("/h2-console/**").permitAll(); //close it when finish game!!!!!
+
         //  .anyRequest().fullyAuthenticated()
 
         http.formLogin()
@@ -416,6 +418,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // if logout is successful, just send a success response
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+
+        http.headers().frameOptions().disable();
     }
 
     private void clearAuthenticationAttributes(HttpServletRequest request) {
