@@ -59,28 +59,28 @@ public class SalvoApplication {
 
             /*------------------------------------------------------------------------------------------------------------*/
 
-            Game g1 = new Game(new Date());
+            Game g1 = new Game();
             gameRepo.save(g1);
 
-            Game g2 = new Game(new Date());
+            Game g2 = new Game();
             gameRepo.save(g2);
 
-            Game g3 = new Game(new Date());
+            Game g3 = new Game();
             gameRepo.save(g3);
 
-            Game g4 = new Game(new Date());
+            Game g4 = new Game();
             gameRepo.save(g4);
 
-            Game g5 = new Game(new Date());
+            Game g5 = new Game();
             gameRepo.save(g5);
 
-            Game g6 = new Game(new Date());
+            Game g6 = new Game();
             gameRepo.save(g6);
 
-            Game g7 = new Game(new Date());
+            Game g7 = new Game();
             gameRepo.save(g7);
 
-            Game g8 = new Game(new Date());
+            Game g8 = new Game();
             gameRepo.save(g8);
             /*------------------------------------------------------------------------------------------------------------*/
 

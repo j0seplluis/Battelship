@@ -32,26 +32,6 @@ let vue = new Vue({
                 });
         },
 
-        getError: function (status) {
-            //BAD_RQUEST
-            if (status == 400) {
-                alert("Something is missing, please try again")
-
-            };
-            //UNAUTHORIZED
-            if (status == 401) {
-                alert("Something went wrong, please try again")
-            }
-            //CONFLICT
-            if (status == 409) {
-                alert("Email already exist, please try again")
-            };
-            //CREATED
-            if (status == 201) {
-                this.getLogIn();
-            }
-        },
-
         getLogIn: function () {
             fetch("/api/login", {
                     credentials: 'include',
@@ -100,7 +80,6 @@ let vue = new Vue({
                     this.games = json.games;
                     this.player = json.player;
                     console.log(json);
-
                     //functions to call
 
                 })
@@ -149,6 +128,49 @@ let vue = new Vue({
                 body.push(encKey + "=" + encVal);
             }
             return body.join("&");
+        },
+
+        formatDate(date) {
+            var monthNames = [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            ];
+
+            var day = date.getDate();
+            var monthIndex = date.getMonth();
+            var year = date.getFullYear();
+
+            return day + ' ' + monthNames[monthIndex] + ' ' + year;
+        },
+
+        getError: function (status) {
+            //BAD_RQUEST
+            if (status == 400) {
+                alert("Something is missing, please try again")
+
+            };
+            //UNAUTHORIZED
+            if (status == 401) {
+                alert("Something went wrong, please try again")
+            }
+            //CONFLICT
+            if (status == 409) {
+                alert("Email already exist, please try again")
+            };
+            //CREATED
+            if (status == 201) {
+                this.getLogIn();
+            }
         }
     },
 

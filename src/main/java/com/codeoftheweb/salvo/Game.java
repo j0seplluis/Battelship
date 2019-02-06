@@ -39,10 +39,9 @@ public class Game {
 
 
     //constructor
-    public Game() {
-    }
 
-    public Game(Date date) {
+
+    public Game() {
         this.date = new Date();
     }
 

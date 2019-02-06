@@ -34,8 +34,6 @@ h4 {
     text-align: center;
 }
 
-
-
 .game {
     display: flex;
     justify-content: space-around;
@@ -43,13 +41,12 @@ h4 {
 
 .gameBoard {
     display: flex;
-
-
 }
 
 .grid {
     width: 400px;
     height: 400px;
+    border-collapse: collapse;
 }
 
 .shipSpace {
@@ -73,7 +70,7 @@ h4 {
 }
 
 .ships {
-    background-color: yellow;
+    background-color: #00FF66;
 }
 
 .salvoLocation {
@@ -92,10 +89,42 @@ h4 {
     justify-content: space-around;
 }
 
+.t_width {
+    width: 40%;
+    border-collapse: collapse;
+}
+
+.table table tbody td {
+    width: 20%;
+}
+
 .form {
     height: 100px;
 }
 
+.ml_5 {
+    margin-left: 5%;
+}
+
+input::placeholder {
+    color: #00FF66;
+}
+
+.background {
+    background-color: #282828;
+    color: #00FF66;
+    border: #00FF66 solid 1px;
+}
+
 .greetings {
     height: 70px;
+}
+
+button {
+    color: #00FF66;
+    border: #00FF66 solid 1px;
+    background-color: #282828;
+    width: 70px;
+    font-family: 'VT323', monospace;
+
 }
