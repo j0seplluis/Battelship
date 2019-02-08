@@ -1,7 +1,6 @@
 package com.codeoftheweb.salvo;
 
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -34,8 +33,6 @@ public class GamePlayer {
 
     @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
     private Set<Salvo> salvo = new HashSet<>();
-
-
 
 
     //constructor
@@ -98,5 +95,7 @@ public class GamePlayer {
     public Score getScore(){
         return this.player.getScores(this.game);
     }
+
+
 }
 

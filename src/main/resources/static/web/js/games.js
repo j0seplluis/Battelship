@@ -1,4 +1,4 @@
-Vue.config.devtools = true
+Vue.config.devtools = true;
 
 let vue = new Vue({
     el: "#myApp",
@@ -15,61 +15,56 @@ let vue = new Vue({
     methods: {
         getSignUp: function () {
             fetch("/api/players", {
-                    credentials: 'include',
+                    credentials: "include",
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        "Content-Type": "application/x-www-form-urlencoded"
                     },
-                    method: 'POST',
+                    method: "POST",
                     body: this.getBody(this.ourData)
                 })
                 .then(function (data) {
-                    console.log('Request success: ', data);
+                    console.log("Request success: ", data);
                     vue.getError(data.status);
-
                 })
                 .catch(error => {
-                    console.log('Request failure: ', error);
+                    console.log("Request failure: ", error);
                 });
         },
 
         getLogIn: function () {
             fetch("/api/login", {
-                    credentials: 'include',
+                    credentials: "include",
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        "Content-Type": "application/x-www-form-urlencoded"
                     },
-                    method: 'POST',
+                    method: "POST",
                     body: this.getBody(this.ourData)
                 })
                 .then(function (data) {
-                    console.log('Request success: ', data);
+                    console.log("Request success: ", data);
                     vue.getError(data.status);
-                    window
-                        .location
-                        .reload();
+                    window.location.reload();
                 })
                 .catch(error => {
-                    console.log('Request failure: ', error);
+                    console.log("Request failure: ", error);
                 });
         },
 
         getLogOut: function () {
             fetch("/api/logout", {
-                    method: 'POST'
+                    method: "POST"
                 })
                 .then(data => {
-                    console.log('Request success: ', data);
-                    window
-                        .location
-                        .reload();
+                    console.log("Request success: ", data);
+                    window.location.reload();
                 })
                 .catch(function (error) {
-                    console.log('Request failure: ', error);
+                    console.log("Request failure: ", error);
                 });
         },
 
         getData: function () {
-            fetch("/api/games/")
+            fetch("/api/games")
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -81,11 +76,10 @@ let vue = new Vue({
                     this.player = json.player;
                     console.log(json);
                     //functions to call
-
                 })
                 .catch(function (error) {
                     console.log("Request failed: " + error.message);
-                })
+                });
         },
 
         getScores: function () {
@@ -101,22 +95,15 @@ let vue = new Vue({
                     console.log(this.scores);
 
                     //functions to call
-
                 })
                 .catch(function (error) {
                     console.log("Request failed: " + error.message);
-                })
+                });
         },
 
         sortedGamePlayers(gp) {
-            return gp.sort(
-                (a, b) => (Number(a.id) > Number(b.id)) ?
-                1 :
-                (
-                    (Number(b.id) > Number(a.id)) ?
-                    -1 :
-                    0
-                )
+            return gp.sort((a, b) =>
+                Number(a.id) > Number(b.id) ? 1 : Number(b.id) > Number(a.id) ? -1 : 0
             );
         },
 
@@ -150,23 +137,39 @@ let vue = new Vue({
             var monthIndex = date.getMonth();
             var year = date.getFullYear();
 
-            return day + ' ' + monthNames[monthIndex] + ' ' + year;
+            return day + " " + monthNames[monthIndex] + " " + year;
+        },
+
+        getGameView: function (gamePlayer) {
+            console.log("hello");
+            console.log(this.player.userName);
+            let url = "";
+            if (gamePlayer[0].player.userName == this.player.userName) {
+                url = gamePlayer[0].id;
+                console.log("hi!");
+            } else {
+                url = gamePlayer[1].id;
+            }
+            window.location = "/web/game.html?gp=" + url;
+        },
+
+        join: function () {
+
         },
 
         getError: function (status) {
             //BAD_RQUEST
             if (status == 400) {
-                alert("Something is missing, please try again")
-
-            };
+                alert("Something is missing, please try again");
+            }
             //UNAUTHORIZED
             if (status == 401) {
-                alert("Something went wrong, please try again")
+                alert("Something went wrong, please try again");
             }
             //CONFLICT
             if (status == 409) {
-                alert("Email already exist, please try again")
-            };
+                alert("Email already exist, please try again");
+            }
             //CREATED
             if (status == 201) {
                 this.getLogIn();
@@ -179,7 +182,5 @@ let vue = new Vue({
     created: function () {
         this.getData();
         this.getScores();
-
     }
-
 });

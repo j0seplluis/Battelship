@@ -20,27 +20,34 @@
                 {{gamePlayer_2}}</h4>
         </header>
 
-        <div class="game">
-            <div class="gameBoard">
-                <table class="grid">
-                    <tr v-for="letter, j in letters">
-                        <td v-for="number,i in numbers" v-bind:id="letter + number">
-                            <span v-if="j == 0 || i == 0">{{letter + number}}</span>
-                        </td>
-                    </tr>
-                </table>
+        <div class="main">
+
+            <div class="return">
+                <a href="http://localhost:8080/web/games.html"><button>Return</button></a>
             </div>
 
-            <div class="gameBoard">
-                <table class="grid">
-                    <tr v-for="letter, j in letters">
-                        <td v-for="number,i in numbers" v-bind:id="letter + number + 'o'">
-                            <span v-if="j == 0 || i == 0">{{letter + number}}</span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <div class="game">
+                <div class="gameBoard">
+                    <table class="grid">
+                        <tr v-for="letter, j in letters">
+                            <td v-for="number,i in numbers" v-bind:id="letter + number">
+                                <span v-if="j == 0 || i == 0">{{letter + number}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
+                <div class="gameBoard">
+                    <table class="grid">
+                        <tr v-for="letter, j in letters">
+                            <td v-for="number,i in numbers" v-bind:id="letter + number + 'o'">
+                                <span v-if="j == 0 || i == 0">{{letter + number}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
         </div>
 
     </div>

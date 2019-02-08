@@ -3,10 +3,10 @@ package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedHashMap;
@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api")
 
 public class SalvoController {
-
 
     @Autowired
     private PlayerRepository playerRep;
@@ -65,7 +64,6 @@ public class SalvoController {
         return map;
     }
 
-
     @RequestMapping("/players")
     public List<Object> getPlayer() {
         return playerRep.findAll()
@@ -101,9 +99,20 @@ public class SalvoController {
     }
 
     @RequestMapping("/game_view/{gamePlayer_id}")
-    public Map<String, Object> getGameView(@PathVariable Long gamePlayer_id) {
+    public Map<String, Object> getGameView(@PathVariable Long gamePlayer_id, Authentication authentication) {
+
         GamePlayer currentGP = gpRepo.getOne(gamePlayer_id);
-        return gameViewDTO(currentGP);
+        Player owner = currentGP.getPlayer();
+        Player loggedPlayer = playerRep.findByEmail(authentication.getName());
+
+        if(owner.equals(loggedPlayer)) {
+            return gameViewDTO(currentGP);
+        }
+        else {
+            Map<String, Object> info = new HashMap<>();
+            info.put("error", "Good try");
+            return info;
+        }
     }
 
     @RequestMapping("/leaderboard")
@@ -197,6 +206,10 @@ public class SalvoController {
 
     /*-----------------------------------------------------------------------------*/
     //common methods
+
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+    }
 
     private GamePlayer getOpponent(GamePlayer gamePlayer) {
         return gamePlayer.getGame()

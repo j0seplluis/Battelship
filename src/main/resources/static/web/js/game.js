@@ -64,7 +64,7 @@ let vue = new Vue({
                 .catch(function (error) {
                     console.log("Request failed: " + error.message);
                 })
-            },
+        },
 
         showShips: function (gameData) {
             console.log(gameData.ships.length);

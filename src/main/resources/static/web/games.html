@@ -24,11 +24,9 @@
                         <label>User Name:
                             <input v-model="ourData.name" class="background" type="text" placeholder="Your Email"
                                 required="required" /></label>
-
                         <label>Password:
                             <input v-model="ourData.pwd" class="background" type="password" placeholder="password"
                                 required="required" /></label>
-
                         <button @click="getLogIn" class="background">Log in</button>
                         <button @click="getSignUp" class="background">Sign up</button>
                     </form>
@@ -36,7 +34,7 @@
 
                 <div v-else="v-else">
                     <div class="greetings">
-                        <h4>Wellcome {{player.email}}</h4>
+                        <h4>Wellcome {{ player.email }}</h4>
                     </div>
                     <form class="ml_5" onsubmit="return false">
                         <button @click="getLogOut" class="background">Log out</button>
@@ -67,19 +65,19 @@
                                 {{ gp.player.userName }}
                             </td>
                             <td v-if="item.gamePlayer.length == 1">Waiting for...</td>
+                            <td v-if="player == null"></td>
                             <td v-if="(player != null && (item.gamePlayer.length == 1) && (item.gamePlayer[0].player.id == player.id))">
-                                <button>Rejoin</button>
+                                <button @click="getGameView">Enter</button></a>
                             </td>
                             <td v-if="((player != null &&  item.gamePlayer.length == 1) && (item.gamePlayer[0].player.id != player.id))">
                                 <button>Join</button>
                             </td>
                             <td v-if="(player != null && (item.gamePlayer.length == 2) && (item.gamePlayer[0].player.id == player.id || item.gamePlayer[1].player.id == player.id))">
-                                <button>Rejoin</button>
+                                <button @click="getGameView(item.gamePlayer)">Play</button>
                             </td>
                             <td v-if="(player != null && (item.gamePlayer.length == 2) && (item.gamePlayer[0].player.id != player.id && item.gamePlayer[1].player.id != player.id))">
                                 <span>Full Game</span>
                             </td>
-                            <td v-else></td>
                         </tr>
                     </tbody>
                 </table>
