@@ -52,6 +52,10 @@ let vue = new Vue({
 
         getLogOut: function () {
             fetch("/api/logout", {
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
                     method: "POST"
                 })
                 .then(data => {
@@ -79,6 +83,23 @@ let vue = new Vue({
                 })
                 .catch(function (error) {
                     console.log("Request failed: " + error.message);
+                });
+        },
+
+        getNewGame: function () {
+            fetch("/api/games", {
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    method: "POST"
+                })
+                .then(data => {
+                    console.log("Request success: ", data);
+                    window.location;
+                })
+                .catch(function (error) {
+                    console.log("Request failure: ", error);
                 });
         },
 
@@ -141,12 +162,10 @@ let vue = new Vue({
         },
 
         getGameView: function (gamePlayer) {
-            console.log("hello");
             console.log(this.player.userName);
             let url = "";
             if (gamePlayer[0].player.userName == this.player.userName) {
                 url = gamePlayer[0].id;
-                console.log("hi!");
             } else {
                 url = gamePlayer[1].id;
             }

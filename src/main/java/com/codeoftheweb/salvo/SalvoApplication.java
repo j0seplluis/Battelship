@@ -82,6 +82,7 @@ public class SalvoApplication {
 
             Game g8 = new Game();
             gameRepo.save(g8);
+
             /*------------------------------------------------------------------------------------------------------------*/
 
             GamePlayer gp1 = new GamePlayer(p1, g1);

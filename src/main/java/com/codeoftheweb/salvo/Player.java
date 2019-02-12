@@ -30,10 +30,7 @@ public class Player {
     @OneToMany(mappedBy="player", fetch= FetchType.EAGER)
     private Set<Score> score = new HashSet<>();
 
-    public void addGamePlayer(GamePlayer gamePlayer) {
-        gamePlayer.setPlayer(this);
-        gamePlayers.add(gamePlayer);
-    }
+
 
 
 
@@ -62,6 +59,11 @@ public class Player {
     }
 
     //methods
+
+    public void addGamePlayer(GamePlayer gamePlayer) {
+        gamePlayer.setPlayer(this);
+        gamePlayers.add(gamePlayer);
+    }
 
     public String getFirstName() {
         return firstName;

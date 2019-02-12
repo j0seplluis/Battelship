@@ -44,24 +44,22 @@ public class SalvoController {
 
     /*-----------------------------------------------------------------------------*/
 
-    @RequestMapping(path = "/players", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> register(String name, String pwd) {
+    @RequestMapping("/game_view/{gamePlayer_id}")
+    public ResponseEntity <Map<String, Object>> getGameView(@PathVariable Long gamePlayer_id, Authentication authentication) {
 
-        if (name.isEmpty() || pwd.isEmpty()) {
-            return new ResponseEntity<>(makeMap("error", "Missing data"), HttpStatus.BAD_REQUEST);
+        GamePlayer currentGP = gpRepo.getOne(gamePlayer_id);
+        Player owner = currentGP.getPlayer();
+        Player loggedPlayer = playerRep.findByEmail(authentication.getName());
+
+        if(owner.equals(loggedPlayer)) {
+            return new ResponseEntity<>(makeMap("owner", gameViewDTO(currentGP)), HttpStatus.OK);
         }
-
-        if (playerRep.findByEmail(name) != null) {
-            return new ResponseEntity<>(makeMap("error", "Name already in use"), HttpStatus.CONFLICT);
+        if(!owner.equals(loggedPlayer)){
+            return new ResponseEntity<>(makeMap("error", "Good try"), HttpStatus.UNAUTHORIZED);
         }
-
-        playerRep.save(new Player(name, passwordEncoder.encode(pwd)));
-        return new ResponseEntity<>(makeMap("email", name),HttpStatus.CREATED);
-    }
-    private Map<String,Object> makeMap(String key, Object value){
-        Map<String, Object> map = new HashMap<>();
-        map.put(key, value);
-        return map;
+        else {
+            return new ResponseEntity<>(makeMap("error", "Good try"), HttpStatus.FORBIDDEN);
+        }
     }
 
     @RequestMapping("/players")
@@ -71,6 +69,41 @@ public class SalvoController {
                 .map(player -> playerDTO(player))
                 .collect(toList());
     }
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> register(String name, String pwd) {
+
+        if (name.isEmpty() || pwd.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "Missing data"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (playerRep.findByEmail(name) != null) {
+            return new ResponseEntity<>(makeMap("error", "Name already in use"), HttpStatus.CONFLICT);
+        }else {
+            playerRep.save(new Player(name, passwordEncoder.encode(pwd)));
+            return new ResponseEntity<>(makeMap("email", name), HttpStatus.CREATED);
+        }
+    }
+
+    @RequestMapping(path = "/games", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> register(Authentication authentication){
+
+        Player loggedPlayer = playerRep.findByEmail(authentication.getName());
+
+        if(loggedPlayer == null){
+            return new ResponseEntity<>(makeMap("Error","Log in, please"),HttpStatus.UNAUTHORIZED);
+        }else{
+
+            Game game = new Game();
+            gameRepo.save(game);
+
+            GamePlayer gamePlayer = new GamePlayer(loggedPlayer, game);
+            gpRepo.save(gamePlayer);
+
+            return new ResponseEntity<>(makeMap("gpid",gamePlayer.getId()),HttpStatus.CREATED);
+        }
+    }
+
 
     @RequestMapping("/games")
     public Map<String, Object> getGames(Authentication authentication) {
@@ -98,22 +131,7 @@ public class SalvoController {
                 .collect(toList());
     }
 
-    @RequestMapping("/game_view/{gamePlayer_id}")
-    public Map<String, Object> getGameView(@PathVariable Long gamePlayer_id, Authentication authentication) {
 
-        GamePlayer currentGP = gpRepo.getOne(gamePlayer_id);
-        Player owner = currentGP.getPlayer();
-        Player loggedPlayer = playerRep.findByEmail(authentication.getName());
-
-        if(owner.equals(loggedPlayer)) {
-            return gameViewDTO(currentGP);
-        }
-        else {
-            Map<String, Object> info = new HashMap<>();
-            info.put("error", "Good try");
-            return info;
-        }
-    }
 
     @RequestMapping("/leaderboard")
     public Map<String, Object> getScores() {
@@ -202,10 +220,14 @@ public class SalvoController {
         return dto;
     }
 
-
-
     /*-----------------------------------------------------------------------------*/
     //common methods
+
+    private Map<String,Object> makeMap(String key, Object value){
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
 
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
@@ -218,8 +240,6 @@ public class SalvoController {
                 .filter(gamePlayer1 -> gamePlayer1.getId() != gamePlayer.getId())
                 .findAny()
                 .orElse(null);
-
     }
-
 }
 

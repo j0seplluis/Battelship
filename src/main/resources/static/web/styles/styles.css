@@ -60,16 +60,12 @@ h4 {
 }
 
 .hit {
-    height: 30px;
-    width: 30px;
     background-image: url("../img/fire.gif");
     background-size: cover;
     background-position: center;
 }
 
 .miss {
-    height: 30px;
-    width: 30px;
     background-image: url("../img/water.gif");
     background-size: cover;
     background-position: center;
@@ -105,7 +101,7 @@ h4 {
 }
 
 .form {
-    height: 130px;
+    height: 160px;
 }
 
 .ml_5 {
@@ -124,6 +120,16 @@ input::placeholder {
 
 .greetings {
     height: 70px;
+}
+
+.newGame {
+    display: flex;
+    justify-content: center;
+}
+
+.FS50 {
+    font-size: 50px;
+    width: 180px;
 }
 
 button {

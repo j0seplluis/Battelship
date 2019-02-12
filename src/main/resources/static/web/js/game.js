@@ -46,23 +46,30 @@ let vue = new Vue({
         getData: function () {
             fetch("/api/game_view/" + this.gp)
                 .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error(response.statusText);
+                    console.log(response);
+
+
+                    return response.json();
+
                 })
                 .then(json => {
-                    this.gameData = json;
-                    console.log(this.gameData);
+                    if (json.error) {
+                        alert(json.error);
+                        window.location = "/web/games.html"
+                    } else {
 
-                    //functions to call
-                    this.showShips(this.gameData);
-                    this.showPlayers(this.gameData);
-                    this.showSalvoes(this.gameData);
+                        console.log(json);
+                        this.gameData = json.owner;
+                        console.log(this.gameData);
 
+                        //functions to call
+                        this.showShips(this.gameData);
+                        this.showPlayers(this.gameData);
+                        this.showSalvoes(this.gameData);
+                    }
                 })
                 .catch(function (error) {
-                    console.log("Request failed: " + error.message);
+                    console.log("Request failed: ", error);
                 })
         },
 

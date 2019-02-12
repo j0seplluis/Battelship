@@ -36,6 +36,11 @@
                     <div class="greetings">
                         <h4>Wellcome {{ player.email }}</h4>
                     </div>
+
+                    <div class="newGame">
+                        <button class="FS50" @click="getNewGame">New Game</button>
+                    </div>
+
                     <form class="ml_5" onsubmit="return false">
                         <button @click="getLogOut" class="background">Log out</button>
                     </form>

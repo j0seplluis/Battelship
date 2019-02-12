@@ -32,10 +32,7 @@ public class Game {
     @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
     private Set<Score> score = new HashSet<>();
 
-    public void addGamePlayer(GamePlayer gamePlayer) {
-        gamePlayer.setGame(this);
-        gamePlayers.add(gamePlayer);
-    }
+
 
 
     //constructor
@@ -46,6 +43,11 @@ public class Game {
     }
 
     //methods
+
+    public void addGamePlayer(GamePlayer gamePlayer) {
+        gamePlayer.setGame(this);
+        gamePlayers.add(gamePlayer);
+    }
 
     public Long getId() {
         return id;
