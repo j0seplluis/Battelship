@@ -43,6 +43,28 @@ public class SalvoController {
     PasswordEncoder passwordEncoder;
 
     /*-----------------------------------------------------------------------------*/
+    //APIs
+
+    @RequestMapping(path = "/game/{game_id}/players", method = RequestMethod.POST)
+    public ResponseEntity <Map<String,Object>> joinGame(@PathVariable Long game_id, Authentication authentication){
+
+    Game game = gameRepo.getOne(game_id);
+    Player loggedPlayer = playerRep.findByEmail(authentication.getName());
+
+        if(loggedPlayer == null){
+            return new ResponseEntity<>(makeMap("error", "please log in"), HttpStatus.UNAUTHORIZED);
+        }
+        if(game == null){
+            return new ResponseEntity<>(makeMap("error", "There is no game to play"), HttpStatus.FORBIDDEN);
+        }
+        if(game.getGamePlayers().size() == 2){
+            return new ResponseEntity<>(makeMap("error", "Game is full"), HttpStatus.FORBIDDEN);
+        }else{
+            GamePlayer gamePlayer = new GamePlayer(loggedPlayer, game);
+            gpRepo.save(gamePlayer);
+            return getCreatedGp(gamePlayer);
+        }
+    }
 
     @RequestMapping("/game_view/{gamePlayer_id}")
     public ResponseEntity <Map<String, Object>> getGameView(@PathVariable Long gamePlayer_id, Authentication authentication) {
@@ -76,7 +98,6 @@ public class SalvoController {
         if (name.isEmpty() || pwd.isEmpty()) {
             return new ResponseEntity<>(makeMap("error", "Missing data"), HttpStatus.BAD_REQUEST);
         }
-
         if (playerRep.findByEmail(name) != null) {
             return new ResponseEntity<>(makeMap("error", "Name already in use"), HttpStatus.CONFLICT);
         }else {
@@ -100,10 +121,9 @@ public class SalvoController {
             GamePlayer gamePlayer = new GamePlayer(loggedPlayer, game);
             gpRepo.save(gamePlayer);
 
-            return new ResponseEntity<>(makeMap("gpid",gamePlayer.getId()),HttpStatus.CREATED);
+            return getCreatedGp(gamePlayer);
         }
     }
-
 
     @RequestMapping("/games")
     public Map<String, Object> getGames(Authentication authentication) {
@@ -131,8 +151,6 @@ public class SalvoController {
                 .collect(toList());
     }
 
-
-
     @RequestMapping("/leaderboard")
     public Map<String, Object> getScores() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
@@ -140,17 +158,20 @@ public class SalvoController {
         for (GamePlayer gp : gamePlayers) {
             Map<String, Object> scores = new LinkedHashMap<>();
             if (!scores.containsKey(gp.getPlayer().getUserName())) {
-                scores.put("Wins", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 1).count());
-                scores.put("Tie", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0.5).count());
-                scores.put("Lost", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0).count());
-                scores.put("Total", gp.getPlayer().getScore().stream().mapToDouble(score -> score.getScore()).sum());
-                dto.put(gp.getPlayer().getUserName(), scores);
+                if(gp.getScore() != null) {
+                    scores.put("Wins", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 1).count());
+                    scores.put("Tie", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0.5).count());
+                    scores.put("Lost", gp.getPlayer().getScore().stream().filter(score -> score.getScore() == 0).count());
+                    scores.put("Total", gp.getPlayer().getScore().stream().mapToDouble(score -> score.getScore()).sum());
+                    dto.put(gp.getPlayer().getUserName(), scores);
+                }
             }
         }
         return dto;
     }
 
     /*-----------------------------------------------------------------------------*/
+    //DTOs
 
     private Map<String, Object> gameDTO(Game game) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
@@ -174,7 +195,11 @@ public class SalvoController {
                 .collect(toList()));
         dto.put("ships", currentGP.getShips().stream().map(ship -> shipDTO(ship)).collect(toList()));
         dto.put("salvo", currentGP.getSalvo().stream().map(salvo -> salvoDTO(salvo)).collect(toList()));
-        dto.put("Opponent", getOpponent(currentGP).getSalvo().stream().map(salvo -> salvoDTO(salvo)).collect(toList()));
+        if(getOpponent(currentGP) != null) {
+            dto.put("Opponent", getOpponent(currentGP).getSalvo().stream().map(salvo -> salvoDTO(salvo)).collect(toList()));
+        }else{
+            dto.put("Opponent", null);
+        }
         return dto;
     }
 
@@ -229,8 +254,16 @@ public class SalvoController {
         return map;
     }
 
+    private ResponseEntity<Map<String, Object>> getCreatedGp(GamePlayer gamePlayer) {
+        return new ResponseEntity<>(makeMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
+    }
+
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+    }
+
+    private Player isAuth (Authentication authentication){
+        return playerRep.findByEmail(authentication.getName());
     }
 
     private GamePlayer getOpponent(GamePlayer gamePlayer) {

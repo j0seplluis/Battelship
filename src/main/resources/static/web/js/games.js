@@ -96,7 +96,30 @@ let vue = new Vue({
                 })
                 .then(data => {
                     console.log("Request success: ", data);
-                    window.location;
+                    return data.json();
+                })
+                .then(json => (window.location = "/web/game.html?gp=" + json.gpid))
+                .catch(function (error) {
+                    console.log("Request failure: ", error);
+                });
+        },
+
+        join: function (game_id) {
+            console.log("hello");
+            fetch("/api/game/" + game_id + "/players", {
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    method: "POST"
+                })
+                .then(data => {
+                    console.log("Request success: ", data);
+                    return data.json();
+                })
+                .then(json => {
+                    console.log(json);
+                    window.location = "/web/game.html?gp=" + json.gpid
                 })
                 .catch(function (error) {
                     console.log("Request failure: ", error);
@@ -170,10 +193,6 @@ let vue = new Vue({
                 url = gamePlayer[1].id;
             }
             window.location = "/web/game.html?gp=" + url;
-        },
-
-        join: function () {
-
         },
 
         getError: function (status) {

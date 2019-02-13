@@ -74,7 +74,7 @@ let vue = new Vue({
         },
 
         showShips: function (gameData) {
-            console.log(gameData.ships.length);
+            // console.log(gameData.ships.length);
             for (let i = 0; i < gameData.ships.length; i++) {
                 for (let j = 0; j < gameData.ships[i].shipLocation.length; j++) {
                     document

@@ -59,28 +59,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in games">
-                            <td>{{ item.id }}</td>
+                        <tr v-for="game in games">
+                            <td>{{ game.id }}</td>
                             <td>
-                                {{ item.create.split("T")[1].split(".")[0] }}
-                                /
-                                {{ item.create.split("T")[0] }}
+                                game /
+                                {{ game.create.split("T")[0] }}
                             </td>
-                            <td v-for="gp in sortedGamePlayers([...item.gamePlayer])">
-                                {{ gp.player.userName }}
+                            <td v-for="gp in sortedGamePlayers([...game.gamePlayer])">
+                                {{ gp.player.email }}
                             </td>
-                            <td v-if="item.gamePlayer.length == 1">Waiting for...</td>
+                            <td v-if="game.gamePlayer.length == 1">Waiting for...</td>
                             <td v-if="player == null"></td>
-                            <td v-if="(player != null && (item.gamePlayer.length == 1) && (item.gamePlayer[0].player.id == player.id))">
-                                <button @click="getGameView">Enter</button></a>
+                            <td v-if="(player != null && (game.gamePlayer.length == 1) && (game.gamePlayer[0].player.id == player.id))">
+                                <button @click="getGameView(game.gamePlayer)">Play</button></a>
                             </td>
-                            <td v-if="((player != null &&  item.gamePlayer.length == 1) && (item.gamePlayer[0].player.id != player.id))">
-                                <button>Join</button>
+                            <td v-if="((player != null &&  game.gamePlayer.length == 1) && (game.gamePlayer[0].player.id != player.id))">
+                                <button @click="join(game.id)">Join</button>
                             </td>
-                            <td v-if="(player != null && (item.gamePlayer.length == 2) && (item.gamePlayer[0].player.id == player.id || item.gamePlayer[1].player.id == player.id))">
-                                <button @click="getGameView(item.gamePlayer)">Play</button>
+                            <td v-if="(player != null && (game.gamePlayer.length == 2) && (game.gamePlayer[0].player.id == player.id || game.gamePlayer[1].player.id == player.id))">
+                                <button @click="getGameView(game.gamePlayer)">Play</button>
                             </td>
-                            <td v-if="(player != null && (item.gamePlayer.length == 2) && (item.gamePlayer[0].player.id != player.id && item.gamePlayer[1].player.id != player.id))">
+                            <td v-if="(player != null && (game.gamePlayer.length == 2) && (game.gamePlayer[0].player.id != player.id && game.gamePlayer[1].player.id != player.id))">
                                 <span>Full Game</span>
                             </td>
                         </tr>
@@ -98,12 +97,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in scores">
+                        <tr v-for="(score, index) in scores">
                             <td>{{ index }}</td>
-                            <td>{{ item.Wins }}</td>
-                            <td>{{ item.Tie }}</td>
-                            <td>{{ item.Lost }}</td>
-                            <td>{{ item.Total }}</td>
+                            <td>{{ score.Wins }}</td>
+                            <td>{{ score.Tie }}</td>
+                            <td>{{ score.Lost }}</td>
+                            <td>{{ score.Total }}</td>
                         </tr>
                     </tbody>
                 </table>
