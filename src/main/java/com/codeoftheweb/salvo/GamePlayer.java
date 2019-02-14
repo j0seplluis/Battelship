@@ -96,6 +96,10 @@ public class GamePlayer {
         return this.player.getScores(this.game);
     }
 
+    public void addShip(Ship ship){
+        ship.setGamePlayer(this);
+        ships.add(ship);
+    }
 
 }
 

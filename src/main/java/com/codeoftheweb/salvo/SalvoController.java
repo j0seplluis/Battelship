@@ -7,10 +7,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -44,6 +42,34 @@ public class SalvoController {
 
     /*-----------------------------------------------------------------------------*/
     //APIs
+
+    @RequestMapping("/games/players/{gamePlayerId}/ships")
+    public ResponseEntity<Map<String, Object>>placeShips(@PathVariable Long gamePlayerId, Authentication authentication, Set<Ship> ships){
+        Player loggedPlayer = playerRep.findByEmail(authentication.getName());
+        GamePlayer currentGP = gpRepo.getOne(gamePlayerId);
+
+        if(loggedPlayer == null){
+            return new ResponseEntity<>(makeMap("error", "please log in"), HttpStatus.UNAUTHORIZED);
+        }
+        if(currentGP == null){
+            return new ResponseEntity<>(makeMap("error", "please join a game"), HttpStatus.UNAUTHORIZED);
+        }
+        if(!loggedPlayer.getId().equals(currentGP.getPlayer().getId())){
+            return new ResponseEntity<>(makeMap("error", "This is not your game"), HttpStatus.UNAUTHORIZED);
+        }
+        if(currentGP.getShips().size() != 0){
+            return new ResponseEntity<>(makeMap("error", "You already placed your ships"), HttpStatus.FORBIDDEN);
+        }
+        if(ships.size() != 5){
+            return new ResponseEntity<>(makeMap("error", "There should be only 5 ships"), HttpStatus.FORBIDDEN);
+        }else {
+            ships.forEach(s -> {
+                currentGP.addShip(s);
+                shipRepo.save(s);
+            });
+            return new ResponseEntity<>(makeMap("success","you got ships"), HttpStatus.CREATED);
+        }
+    }
 
     @RequestMapping(path = "/game/{game_id}/players", method = RequestMethod.POST)
     public ResponseEntity <Map<String,Object>> joinGame(@PathVariable Long game_id, Authentication authentication){
