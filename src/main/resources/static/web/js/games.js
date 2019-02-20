@@ -12,6 +12,11 @@ let vue = new Vue({
         player: ""
     },
 
+    created: function () {
+        this.getData();
+        this.getScores();
+    },
+
     methods: {
         getSignUp: function () {
             fetch("/api/players", {
@@ -217,8 +222,4 @@ let vue = new Vue({
 
     computed: {},
 
-    created: function () {
-        this.getData();
-        this.getScores();
-    }
 });

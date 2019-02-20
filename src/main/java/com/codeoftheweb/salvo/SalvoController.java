@@ -44,7 +44,7 @@ public class SalvoController {
     //APIs
 
     @RequestMapping("/games/players/{gamePlayerId}/ships")
-    public ResponseEntity<Map<String, Object>>placeShips(@PathVariable Long gamePlayerId, Authentication authentication, Set<Ship> ships){
+    public ResponseEntity<Map<String, Object>>placeShips(@PathVariable Long gamePlayerId, Authentication authentication, @RequestBody Set<Ship> ships){
         Player loggedPlayer = playerRep.findByEmail(authentication.getName());
         GamePlayer currentGP = gpRepo.getOne(gamePlayerId);
 
