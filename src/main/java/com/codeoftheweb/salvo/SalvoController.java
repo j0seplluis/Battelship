@@ -43,6 +43,30 @@ public class SalvoController {
     /*-----------------------------------------------------------------------------*/
     //APIs
 
+    @RequestMapping("/games/players/{gamePlayerId}/salvos")
+    public ResponseEntity <Map<String, Object>>salvos(@PathVariable Long gamePlayerId, Authentication authentication, @RequestBody Salvo salvos){
+        Player loggedPlayer = playerRep.findByEmail(authentication.getName());
+        GamePlayer currentGP = gpRepo.getOne(gamePlayerId);
+
+        if(loggedPlayer == null){
+            return new ResponseEntity<>(makeMap("error", "please log in"), HttpStatus.UNAUTHORIZED);
+        }
+        if(currentGP == null){
+            return new ResponseEntity<>(makeMap("error", "please join a game"), HttpStatus.UNAUTHORIZED);
+        }
+        if(!loggedPlayer.getId().equals(currentGP.getPlayer().getId())){
+            return new ResponseEntity<>(makeMap("error", "This is not your game"), HttpStatus.UNAUTHORIZED);
+        }
+        if(currentGP.getSalvo().size() != 0){
+            return new ResponseEntity<>(makeMap("error", "You already placed your salvos"), HttpStatus.FORBIDDEN);
+        } else {
+            salvos.setTurn(currentGP.getSalvo().size() +1);
+            currentGP.addSalvo(salvos);
+            salvoRep.save(salvos);
+            }
+        return new ResponseEntity<>(makeMap("success", "you fired your salvos"), HttpStatus.CREATED);
+    }
+
     @RequestMapping("/games/players/{gamePlayerId}/ships")
     public ResponseEntity<Map<String, Object>>placeShips(@PathVariable Long gamePlayerId, Authentication authentication, @RequestBody Set<Ship> ships){
         Player loggedPlayer = playerRep.findByEmail(authentication.getName());

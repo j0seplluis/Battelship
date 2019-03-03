@@ -40,7 +40,9 @@ let vue = new Vue({
         length: 5
       }
     ],
-    active: true
+    shipIsHere: false,
+    active: true,
+    isHorizontal: true
   },
 
   created: function () {
@@ -74,8 +76,8 @@ let vue = new Vue({
             //functions to call
             this.showShips(this.gameData);
             this.showPlayers(this.gameData);
-            this.showOpponentSalvoes(this.gameData);
             this.showMySalvoes(this.gameData);
+            this.showOpponentSalvoes(this.gameData);
           }
         })
         .catch(function (error) {
@@ -84,7 +86,6 @@ let vue = new Vue({
     },
 
     sendShips: function () {
-      console.log("hello");
       fetch("/api/games/players/" + this.getURL() + "/ships", {
           credentials: "include",
           body: JSON.stringify(vue.shipPosition),
@@ -187,18 +188,51 @@ let vue = new Vue({
     },
 
     mouseOver() {
+      this.shipIsHere = false;
       let letter = event.target.id.substr(0, 1);
       let number = event.target.id.substr(1, 2);
 
       if (this.active == true) {
         for (let i = 0; i < this.shipLength; i++) {
-          let id = letter + (Number(number) + i);
+          let id;
+          if (this.isHorizontal) {
+            id = letter + (Number(number) + i);
+            if ((Number(number) + i) > 10) {
+              console.log("j");
+              let id2;
+              for (let j = 0; j < this.shipLength; j++) {
+                id2 = letter + (Number(number) + j);
+                document.getElementById(id2).classList.add("shipUnavailable");
+              }
+              this.shipIsHere = true;
+            }
+          } else {
+            id =
+              this.letters[this.letters.indexOf(letter) + i] + Number(number);
+            console.log(id);
+            if (this.letters.indexOf(letter) + i > 10) {
+              console.log("k");
+              let id3;
+              for (let k = 0; k < this.shipLength; k++) {
+                id3 =
+                  (this.letters[this.letters.indexOf(letter) + k]) + Number(number);
+                document.getElementById(id3).classList.add("shipUnavailable");
+              }
+              this.shipIsHere = true;
+            }
+          }
+
+          if (document.getElementById(id).classList.contains("ships")) {
+            this.shipIsHere = true;
+            document.getElementById(id).classList.add("shipUnavailable");
+          }
+
           document.getElementById(id).classList.add("pointerOn");
         }
         document
           .getElementById(event.target.id)
           .addEventListener("click", this.setShip);
-      } else {}
+      }
     },
 
     mouseLeave() {
@@ -206,23 +240,75 @@ let vue = new Vue({
       let number = event.target.id.substr(1, 2);
 
       for (let i = 0; i < this.shipLength; i++) {
-        let id = letter + (Number(number) + i);
+        let id;
+        if (this.isHorizontal) {
+          id = letter + (Number(number) + i);
+          if ((Number(number) + i) > 10) {
+            let id2;
+            for (let j = 0; j < this.shipLength; j++) {
+              id2 = letter + (Number(number) + j);
+              document.getElementById(id2).classList.remove("shipUnavailable");
+            }
+            this.shipIsHere = true;
+          }
+        } else {
+          id = this.letters[this.letters.indexOf(letter) + i] + Number(number);
+          if (this.letters.indexOf(letter) + i > 10) {
+            let id3;
+            for (let k = 0; k < this.shipLength; k++) {
+              id3 =
+                this.letters[this.letters.indexOf(letter) + k] + Number(number);
+              document.getElementById(id3).classList.remove("shipUnavailable");
+            }
+            this.shipIsHere = true;
+          }
+        }
+
         document.getElementById(id).classList.remove("pointerOn");
+        if (document.getElementById(id).classList.contains("ships")) {
+          document.getElementById(id).classList.remove("shipUnavailable");
+        }
       }
+      document
+        .getElementById(event.target.id)
+        .removeEventListener("click", this.setShip);
     },
 
     setShip() {
-      let letter = event.target.id.substr(0, 1);
-      let number = event.target.id.substr(1, 2);
+      if (this.shipIsHere == false) {
+        let letter = event.target.id.substr(0, 1);
+        let number = event.target.id.substr(1, 2);
 
-      let ship = this.shipPosition.find(ship => ship.type == this.shipType);
-      for (let i = 0; i < this.shipLength; i++) {
-        let id = letter + (Number(number) + i);
-        ship.shipLocation.push(id);
-        document.getElementById(id).classList.add("ships");
+        let ship = this.shipPosition.find(ship => ship.type == this.shipType);
+        for (let i = 0; i < this.shipLength; i++) {
+          let id;
+          if (this.isHorizontal) {
+            id = letter + (Number(number) + i);
+          } else {
+            id =
+              this.letters[this.letters.indexOf(letter) + i] + Number(number);
+          }
+          ship.shipLocation.push(id);
+          document.getElementById(id).classList.add("ships");
+        }
+        this.active = false;
+        this.shipSelected.classList.add("hide"); // this.shipSelected.style.display = "none"
+        this.placedShip++;
+        if (this.placedShip == 5) {
+          document.getElementById("ready").classList.remove("hide");
+        }
       }
-      this.active = false;
-      this.shipSelected.style.display = "none"
+    },
+
+    rotateShip() {
+      this.isHorizontal = !this.isHorizontal;
     }
   }
 });
+
+document.onkeydown = function (e) {
+  if (e.keyCode == 32) {
+    console.log("Space was clicked!!")
+    vue.rotateShip();
+  }
+}

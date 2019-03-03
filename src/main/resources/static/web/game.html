@@ -57,10 +57,10 @@
           <button @click="getLocationsByshiptType">Carrier</button>
         </div>
         <div class="ready">
-          <!-- <div v-show="placedShip == 5" class="ready"> -->
-          <button>Ready!</button>
+          <button id="ready" class="hide" @click="sendShips">Ready!</button>
         </div>
       </div>
+      <button @click="rotateShip">rotate</button>
     </div>
   </div>
 

@@ -87,6 +87,33 @@ h4 {
     background-color: #00BF66;
 }
 
+.hide {
+    display: none;
+}
+
+.shipUnavailable {
+    background-image: url("../img/x.png");
+    height: 30px;
+    width: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: blink 0.5s linear infinite;
+}
+
+@keyframes blink {
+    10% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: .5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 /* ----------------------GAMES.HTML--------------------------------- */
 
 .table {
