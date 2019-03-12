@@ -44,7 +44,7 @@ public class SalvoController {
     //APIs
 
     @RequestMapping("/games/players/{gamePlayerId}/salvos")
-    public ResponseEntity <Map<String, Object>>salvos(@PathVariable Long gamePlayerId, Authentication authentication, @RequestBody Salvo salvos){
+    public ResponseEntity <Map<String, Object>>salvos(@PathVariable Long gamePlayerId, Authentication authentication, @RequestBody Salvo salvo){
         Player loggedPlayer = playerRep.findByEmail(authentication.getName());
         GamePlayer currentGP = gpRepo.getOne(gamePlayerId);
 
@@ -60,9 +60,9 @@ public class SalvoController {
         if(currentGP.getSalvo().size() != 0){
             return new ResponseEntity<>(makeMap("error", "You already placed your salvos"), HttpStatus.FORBIDDEN);
         } else {
-            salvos.setTurn(currentGP.getSalvo().size() +1);
-            currentGP.addSalvo(salvos);
-            salvoRep.save(salvos);
+            salvo.setTurn(currentGP.getSalvo().size() +1);
+            currentGP.addSalvo(salvo);
+            salvoRep.save(salvo);
             }
         return new ResponseEntity<>(makeMap("success", "you fired your salvos"), HttpStatus.CREATED);
     }

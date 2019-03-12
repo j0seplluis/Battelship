@@ -6,15 +6,17 @@ let vue = new Vue({
     letters: ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     numbers: ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
     gp: "",
-    gameData: "",
+    gameData: {},
     gamePlayer_1: "",
     gamePlayer_2: "",
-    salvoLocation: "",
+    salvoLocation: [],
+    salvoCount: 0,
     shipLength: "",
     shipType: "",
     placedShip: 0,
     shipSelected: "",
-    shipPosition: [{
+    shipPosition: [
+      {
         type: "Patrol",
         shipLocation: [],
         length: 2
@@ -42,22 +44,24 @@ let vue = new Vue({
     ],
     shipIsHere: false,
     active: true,
-    isHorizontal: true
+    isHorizontal: true,
+    shoot: false,
+    cellId: ""
   },
 
-  created: function () {
+  created: function() {
     this.getURL();
     this.getData();
   },
 
   methods: {
-    getURL: function () {
+    getURL: function() {
       var url = new URL(window.location.href);
       this.gp = url.searchParams.get("gp");
       return url.searchParams.get("gp");
     },
 
-    getData: function () {
+    getData: function() {
       fetch("/api/game_view/" + this.getURL())
         .then(response => {
           console.log(response);
@@ -80,20 +84,20 @@ let vue = new Vue({
             this.showOpponentSalvoes(this.gameData);
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log("Request failed: ", error);
         });
     },
 
-    sendShips: function () {
+    sendShips: function() {
       fetch("/api/games/players/" + this.getURL() + "/ships", {
-          credentials: "include",
-          body: JSON.stringify(vue.shipPosition),
-          headers: {
-            "Content-Type": "application/json"
-          },
-          method: "POST"
-        })
+        credentials: "include",
+        body: JSON.stringify(vue.shipPosition),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST"
+      })
         .then(data => {
           console.log("Request success: ", data);
           return data.json();
@@ -101,13 +105,38 @@ let vue = new Vue({
         .then(json => {
           console.log(json);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log("Request failure: ", error);
           window.location = "/web/game.html?gp=" + json.gamePlayer_id;
         });
     },
 
-    showShips: function (gameData) {
+    sendSalvo() {
+      fetch("/api/games/players/" + this.getURL() + "/salvos", {
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+          salvoLocation: vue.salvoLocation
+        })
+      })
+        .then(data => {
+          console.log("Request success: ", data);
+          return data.json();
+        })
+        .then(json => {
+          console.log(json);
+        })
+        .catch(function(error) {
+          console.log("Request failure: ", error);
+          window.location = "/web/game.html?gp=" + json.gamePlayer_id;
+          window.location.reload();
+        });
+    },
+
+    showShips: function(gameData) {
       // console.log(gameData.ships.length);
       for (let i = 0; i < gameData.ships.length; i++) {
         for (let j = 0; j < gameData.ships[i].shipLocation.length; j++) {
@@ -118,7 +147,7 @@ let vue = new Vue({
       }
     },
 
-    showPlayers: function (gameData) {
+    showPlayers: function(gameData) {
       for (let i = 0; i < gameData.gamePlayer.length; i++) {
         if (gameData.gamePlayer[i].id == this.gp) {
           this.gamePlayer_1 = gameData.gamePlayer[i].player.userName;
@@ -131,23 +160,27 @@ let vue = new Vue({
       }
     },
 
-    showOpponentSalvoes: function (gameData) {
-      gameData.Opponent.forEach(element => {
-        element.salvoLocation.forEach(loc => {
-          let cell = document.getElementById(loc);
+    showOpponentSalvoes: function(gameData) {
+      if (this.gameData.Opponent == null) {
+        return null;
+      } else {
+        gameData.Opponent.forEach(element => {
+          element.salvoLocation.forEach(loc => {
+            let cell = document.getElementById(loc);
 
-          cell.innerHTML = element.turn;
+            cell.innerHTML = element.turn;
 
-          if (cell.classList.contains("ships")) {
-            cell.classList.add("hit");
-          } else {
-            cell.classList.add("miss");
-          }
+            if (cell.classList.contains("ships")) {
+              cell.classList.add("hit");
+            } else {
+              cell.classList.add("miss");
+            }
+          });
         });
-      });
+      }
     },
 
-    showMySalvoes: function (gameData) {
+    showMySalvoes: function(gameData) {
       gameData.salvo.forEach(element => {
         element.salvoLocation.forEach(loc => {
           let cell = document.getElementById(loc + "o");
@@ -177,6 +210,11 @@ let vue = new Vue({
       // } }
     },
 
+    setId() {
+      this.cellId = event.target.id;
+      //console.log("IN", this.cellId);
+    },
+
     getLocationsByshiptType() {
       this.shipType = event.target.innerHTML;
 
@@ -185,20 +223,21 @@ let vue = new Vue({
       ).length;
       this.active = true;
       this.shipSelected = event.target; //ALL THE ELEMENT SAVED
+      //console.log(event.target);
     },
 
     mouseOver() {
       this.shipIsHere = false;
-      let letter = event.target.id.substr(0, 1);
-      let number = event.target.id.substr(1, 2);
+      let letter = this.cellId.substr(0, 1);
+      let number = this.cellId.substr(1, 2);
 
       if (this.active == true) {
         for (let i = 0; i < this.shipLength; i++) {
           let id;
           if (this.isHorizontal) {
             id = letter + (Number(number) + i);
-            if ((Number(number) + i) > 10) {
-              console.log("j");
+            if (Number(number) + i > 10) {
+              // console.log("j");
               let id2;
               for (let j = 0; j < this.shipLength; j++) {
                 id2 = letter + (Number(number) + j);
@@ -209,13 +248,14 @@ let vue = new Vue({
           } else {
             id =
               this.letters[this.letters.indexOf(letter) + i] + Number(number);
-            console.log(id);
+            // console.log(id);
             if (this.letters.indexOf(letter) + i > 10) {
               console.log("k");
               let id3;
               for (let k = 0; k < this.shipLength; k++) {
                 id3 =
-                  (this.letters[this.letters.indexOf(letter) + k]) + Number(number);
+                  this.letters[this.letters.indexOf(letter) + k] +
+                  Number(number);
                 document.getElementById(id3).classList.add("shipUnavailable");
               }
               this.shipIsHere = true;
@@ -236,14 +276,14 @@ let vue = new Vue({
     },
 
     mouseLeave() {
-      let letter = event.target.id.substr(0, 1);
-      let number = event.target.id.substr(1, 2);
+      let letter = this.cellId.substr(0, 1);
+      let number = this.cellId.substr(1, 2);
 
       for (let i = 0; i < this.shipLength; i++) {
         let id;
         if (this.isHorizontal) {
           id = letter + (Number(number) + i);
-          if ((Number(number) + i) > 10) {
+          if (Number(number) + i > 10) {
             let id2;
             for (let j = 0; j < this.shipLength; j++) {
               id2 = letter + (Number(number) + j);
@@ -270,14 +310,14 @@ let vue = new Vue({
         }
       }
       document
-        .getElementById(event.target.id)
+        .getElementById(this.cellId)
         .removeEventListener("click", this.setShip);
     },
 
     setShip() {
       if (this.shipIsHere == false) {
-        let letter = event.target.id.substr(0, 1);
-        let number = event.target.id.substr(1, 2);
+        let letter = this.cellId.substr(0, 1);
+        let number = this.cellId.substr(1, 2);
 
         let ship = this.shipPosition.find(ship => ship.type == this.shipType);
         for (let i = 0; i < this.shipLength; i++) {
@@ -301,14 +341,40 @@ let vue = new Vue({
     },
 
     rotateShip() {
+      this.mouseLeave();
       this.isHorizontal = !this.isHorizontal;
+      this.mouseOver();
+    },
+
+    fire() {
+      this.shoot = !this.shoot;
+    },
+
+    fireSalvo() {
+      if (this.shoot == false) {
+        return;
+      } else {
+        let id = event.target.id;
+        // console.log(id);
+        if (this.salvoLocation.length == 5) {
+          alert("you can only place 5 salvos");
+          return;
+        }
+        if (
+          !this.salvoLocation.includes(event.target.id.substr(0, id.length - 1))
+        ) {
+          this.salvoLocation.push(id.substr(0, id.length - 1));
+          document.getElementById(id).classList.add("ships");
+        }
+      }
     }
   }
 });
 
-document.onkeydown = function (e) {
+//out of vue
+
+document.onkeydown = function(e) {
   if (e.keyCode == 32) {
-    console.log("Space was clicked!!")
     vue.rotateShip();
   }
-}
+};
