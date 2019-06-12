@@ -101,13 +101,13 @@ let vue = new Vue({
         .then(data => {
           console.log("Request success: ", data);
           return data.json();
+          window.location.reload();
         })
         .then(json => {
           console.log(json);
         })
         .catch(function(error) {
           console.log("Request failure: ", error);
-          window.location = "/web/game.html?gp=" + json.gamePlayer_id;
         });
     },
 
@@ -128,11 +128,10 @@ let vue = new Vue({
         })
         .then(json => {
           console.log(json);
+          window.location.reload();
         })
         .catch(function(error) {
           console.log("Request failure: ", error);
-          window.location = "/web/game.html?gp=" + json.gamePlayer_id;
-          window.location.reload();
         });
     },
 
@@ -161,10 +160,10 @@ let vue = new Vue({
     },
 
     showOpponentSalvoes: function(gameData) {
-      if (this.gameData.Opponent == null) {
+      if (this.gameData.opponent == null) {
         return null;
       } else {
-        gameData.Opponent.forEach(element => {
+        gameData.opponent.forEach(element => {
           element.salvoLocation.forEach(loc => {
             let cell = document.getElementById(loc);
 
@@ -182,14 +181,24 @@ let vue = new Vue({
 
     showMySalvoes: function(gameData) {
       gameData.salvo.forEach(element => {
-        element.salvoLocation.forEach(loc => {
-          let cell = document.getElementById(loc + "o");
+        element.salvoLocation.map(salvoLoc => {
+          console.log(salvoLoc);
+          let cell = document.getElementById(salvoLoc + "o");
           cell.innerHTML = element.turn;
-
           cell.classList.add("miss");
+          element.hits.forEach(hitLoc => {
+            for (hit in hitLoc) {
+              console.log("hit", hitLoc[hit]);
+
+              if (hit == salvoLoc) {
+                this.stillAfloat(hitLoc[hit]);
+                cell.classList.remove("miss");
+                cell.classList.add("hit");
+              }
+            }
+          });
         });
       });
-
       // TheirShots
       //for (let i = 0; i < gameData.Opponent.length; i++) {
       //    for (let j = 0; j < gameData.Opponent[i].salvoLocation.length; j++) {
@@ -202,7 +211,7 @@ let vue = new Vue({
       //          }}
       //      }
       // My shots
-      // for (leti = 0; i < gameData.salvo.length; i++) {
+      // for (let i = 0; i < gameData.salvo.length; i++) {
       //     for (let j = 0; j <gameData.salvo[i].salvoLocation.length; j++) {
       //          document.getElementById(gameData.salvo[i].salvoLocation[j] + "o").innerHTML =
       //          this.gameData.salvo[i].turn;
@@ -210,9 +219,18 @@ let vue = new Vue({
       // } }
     },
 
+    stillAfloat(type) {
+      for (let i = 0; i < this.shipPosition.length; i++) {
+        if (type.includes(this.shipPosition[i].type)) {
+          if (this.shipPosition[i].length > 0) {
+            this.shipPosition[i].length -= 1;
+          }
+        }
+      }
+    },
+
     setId() {
       this.cellId = event.target.id;
-      //console.log("IN", this.cellId);
     },
 
     getLocationsByshiptType() {
@@ -266,7 +284,6 @@ let vue = new Vue({
             this.shipIsHere = true;
             document.getElementById(id).classList.add("shipUnavailable");
           }
-
           document.getElementById(id).classList.add("pointerOn");
         }
         document
@@ -355,7 +372,6 @@ let vue = new Vue({
         return;
       } else {
         let id = event.target.id;
-        // console.log(id);
         if (this.salvoLocation.length == 5) {
           alert("you can only place 5 salvos");
           return;

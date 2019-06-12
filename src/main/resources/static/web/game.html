@@ -1,78 +1,117 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <title>game</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=VT323"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>game</title>
-  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles/styles.css" />
-</head>
+  <body>
+    <div id="myApp">
+      <header>
+        <h1 class="title">Battleship</h1>
+        <h4 id="players">
+          {{ gamePlayer_1 }}
+          (You) vs
+          {{ gamePlayer_2 }}
+        </h4>
+        <div class="status"></div>
+      </header>
 
-<body>
-  <div id="myApp">
-    <header>
-      <h1 class="title">Battleship</h1>
-      <h4 id="players">
-        {{ gamePlayer_1 }}
-        (You) vs
-        {{ gamePlayer_2 }}
-      </h4>
-    </header>
-
-    <div class="main">
-      <div class="return">
-        <a href="http://localhost:8080/web/games.html">
-          <button>Return</button>
-        </a>
-      </div>
-
-      <div class="game">
-        <div class="gameBoard">
-          <table class="grid">
-            <tr v-for="letter, j in letters">
-              <td v-for="number,i in numbers" v-bind:id="letter + number" @mouseover="setId(); mouseOver()" @mouseleave="mouseLeave">
-                <span v-if="j == 0 || i == 0">{{ letter + number }}</span>
-              </td>
-            </tr>
-          </table>
+      <div class="main">
+        <div class="return">
+          <a href="http://localhost:8080/web/games.html">
+            <button>Return</button>
+          </a>
         </div>
 
-        <div class="gameBoard">
-          <table class="grid enemy">
-            <tr v-for="letter, j in letters">
-              <td v-for="number,i in numbers" v-if="j == 0 || i == 0">
-                <span v-if="j == 0 || i == 0">{{ letter + number }}</span>
-              </td>
-              <td v-else v-bind:id="letter + number + 'o'" @click="fireSalvo()"></td>
-            </tr>
-          </table>
-        </div>
-      </div>
+        <div class="game">
+          <div class="gameBoard">
+            <table class="grid">
+              <tr v-for="letter, j in letters">
+                <td
+                  v-for="number,i in numbers"
+                  v-bind:id="letter + number"
+                  @mouseover="setId(); mouseOver()"
+                  @mouseleave="mouseLeave"
+                >
+                  <span v-if="j == 0 || i == 0">{{ letter + number }}</span>
+                </td>
+              </tr>
+            </table>
+          </div>
 
-      <div class="play">
-        <div class="shipButtons">
-          <button @click="getLocationsByshiptType">Patrol</button>
-          <button @click="getLocationsByshiptType">Destroyer</button>
-          <button @click="getLocationsByshiptType">Submarine</button>
-          <button @click="getLocationsByshiptType">Battleship</button>
-          <button @click="getLocationsByshiptType">Carrier</button>
+          <div
+            class="checkShips"
+            v-if="gameData.hasOwnProperty('ships') && gameData.ships.length != 0"
+          >
+            <h3>STILL AFLOAT</h3>
+            <ul>
+              <li v-for="ship in shipPosition" v-if="ship.length!=0">
+                {{ ship.type }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="gameBoard">
+            <table class="grid">
+              <tr v-for="letter, j in letters">
+                <td v-for="number,i in numbers" v-if="j == 0 || i == 0">
+                  <span v-if="j == 0 || i == 0">{{ letter + number }}</span>
+                </td>
+                <td
+                  v-else
+                  v-bind:id="letter + number + 'o'"
+                  @click="fireSalvo()"
+                ></td>
+              </tr>
+            </table>
+          </div>
         </div>
-        <div class="ready">
-          <button id="ready" class="hide" @click="sendShips">Ready!</button>
+
+        <div class="play">
+          <div
+            class="shipButtons"
+            v-if="gameData.hasOwnProperty('ships') && gameData.ships.length == 0"
+          >
+            <button @click="getLocationsByshiptType">Patrol</button>
+            <button @click="getLocationsByshiptType">Destroyer</button>
+            <button @click="getLocationsByshiptType">Submarine</button>
+            <button @click="getLocationsByshiptType">Battleship</button>
+            <button @click="getLocationsByshiptType">Carrier</button>
+          </div>
+
+          <div class="ready">
+            <button id="ready" class="hide" @click="sendShips">Ready!</button>
+          </div>
+
+          <div
+            v-if="gameData.hasOwnProperty('ships') && gameData.ships.length == 5"
+          >
+            <div class="salvo">
+              <button @click="fire">Salvo</button>
+            </div>
+
+            <div class="fire">
+              <button @click="sendSalvo">Fire!!!</button>
+            </div>
+          </div>
+
+          <div
+            v-show="gameData.hasOwnProperty('ships') && gameData.ships.length <5 "
+            class="rotate"
+          >
+            <span>To rotate the ships press SPACE bar</span>
+          </div>
         </div>
-        <div>
-          <button @click="fire">Salvo</button>
-        </div>
-      </div>
-      <div class="ready">
-        <!-- <button @click="rotateShip">rotate</button> -->
-        <button @click="sendSalvo">Fire!!!</button>
       </div>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  <script src="./js/game.js"></script>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="./js/game.js"></script>
+  </body>
 </html>
