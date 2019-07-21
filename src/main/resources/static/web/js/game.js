@@ -15,8 +15,7 @@ let vue = new Vue({
     shipType: "",
     placedShip: 0,
     shipSelected: "",
-    shipPosition: [
-      {
+    shipPosition: [{
         type: "Patrol",
         shipLocation: [],
         length: 2
@@ -49,19 +48,19 @@ let vue = new Vue({
     cellId: ""
   },
 
-  created: function() {
+  created: function () {
     this.getURL();
     this.getData();
   },
 
   methods: {
-    getURL: function() {
+    getURL: function () {
       var url = new URL(window.location.href);
       this.gp = url.searchParams.get("gp");
       return url.searchParams.get("gp");
     },
 
-    getData: function() {
+    getData: function () {
       fetch("/api/game_view/" + this.getURL())
         .then(response => {
           console.log(response);
@@ -84,44 +83,44 @@ let vue = new Vue({
             this.showOpponentSalvoes(this.gameData);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Request failed: ", error);
         });
     },
 
-    sendShips: function() {
+    sendShips: function () {
       fetch("/api/games/players/" + this.getURL() + "/ships", {
-        credentials: "include",
-        body: JSON.stringify(vue.shipPosition),
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "POST"
-      })
+          credentials: "include",
+          body: JSON.stringify(vue.shipPosition),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST"
+        })
         .then(data => {
           console.log("Request success: ", data);
           return data.json();
-          window.location.reload();
         })
         .then(json => {
           console.log(json);
+          window.location.reload();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Request failure: ", error);
         });
     },
 
     sendSalvo() {
       fetch("/api/games/players/" + this.getURL() + "/salvos", {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify({
-          salvoLocation: vue.salvoLocation
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: JSON.stringify({
+            salvoLocation: vue.salvoLocation
+          })
         })
-      })
         .then(data => {
           console.log("Request success: ", data);
           return data.json();
@@ -130,12 +129,12 @@ let vue = new Vue({
           console.log(json);
           window.location.reload();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log("Request failure: ", error);
         });
     },
 
-    showShips: function(gameData) {
+    showShips: function (gameData) {
       // console.log(gameData.ships.length);
       for (let i = 0; i < gameData.ships.length; i++) {
         for (let j = 0; j < gameData.ships[i].shipLocation.length; j++) {
@@ -146,7 +145,7 @@ let vue = new Vue({
       }
     },
 
-    showPlayers: function(gameData) {
+    showPlayers: function (gameData) {
       for (let i = 0; i < gameData.gamePlayer.length; i++) {
         if (gameData.gamePlayer[i].id == this.gp) {
           this.gamePlayer_1 = gameData.gamePlayer[i].player.userName;
@@ -159,7 +158,7 @@ let vue = new Vue({
       }
     },
 
-    showOpponentSalvoes: function(gameData) {
+    showOpponentSalvoes: function (gameData) {
       if (this.gameData.opponent == null) {
         return null;
       } else {
@@ -179,7 +178,7 @@ let vue = new Vue({
       }
     },
 
-    showMySalvoes: function(gameData) {
+    showMySalvoes: function (gameData) {
       gameData.salvo.forEach(element => {
         element.salvoLocation.map(salvoLoc => {
           console.log(salvoLoc);
@@ -383,13 +382,17 @@ let vue = new Vue({
           document.getElementById(id).classList.add("ships");
         }
       }
+    },
+
+    refresh() {
+      window.location.reload();
     }
   }
 });
 
 //out of vue
 
-document.onkeydown = function(e) {
+document.onkeydown = function (e) {
   if (e.keyCode == 32) {
     vue.rotateShip();
   }
